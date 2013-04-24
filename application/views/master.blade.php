@@ -60,7 +60,7 @@
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
-            @if(Auth::check())
+            @if( Auth::check() )
               <ul class="nav pull-right">
                 <li class="dropdown">
                   <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> Username <strong class="caret"></strong></a>
@@ -71,7 +71,7 @@
                   </ul>
                 </li>
               </ul>
-            @elseif
+            @else
               <ul class="nav pull-right">
                 <li><a href="#">Sign Up</a></li>
                 <li class="divider-vertical"></li>
