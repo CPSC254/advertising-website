@@ -12,3 +12,4 @@ class Photo extends Eloquent
 		return $this->belongs_to('Post');
 	}
 }
+
