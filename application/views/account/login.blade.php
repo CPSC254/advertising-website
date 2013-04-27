@@ -10,7 +10,7 @@
     <div class="alert alert-error"><h4>Uh oh!</h4> {{ Session::get('error') }}</div>
     @endif
 
-    {{ Form::text('username', '', array('class' => 'input-block-level', 'placeholder' => 'Email address')) }}
+    {{ Form::text('username', '', array('class' => 'input-block-level', 'placeholder' => 'Username')) }}
     {{ Form::password('password', array('class' => 'input-block-level', 'placeholder' => 'Password')) }}
 
     {{ Form::checkbox('remember', 'true', true, array('style' => 'display:inline')) }}

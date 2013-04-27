@@ -110,5 +110,6 @@ Route::filter('csrf', function()
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::to('login');
+	Session::put('pre_login_url', URL::current());
+	if (Auth::guest()) return Redirect::to_action('account@login');
 });

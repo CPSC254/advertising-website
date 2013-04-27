@@ -16,6 +16,7 @@ class Create_User_Table {
 			$table->string('password', 64);
 			$table->string('first_name', 50);
 			$table->string('last_name', 50);
+			$table->boolean('admin')->default(0);
 
 			$table->timestamps();
 

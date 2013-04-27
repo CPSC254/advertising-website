@@ -5,6 +5,7 @@ class Account_Controller extends Base_Controller
 	public function __construct()
 	{
 		$this->filter('before', 'csrf')->on('post')->only(array('login', 'register'));
+		$this->filter('before', 'auth')->only(array('logout', 'profile'));
 	}
 
 	public function action_login()
@@ -17,7 +18,14 @@ class Account_Controller extends Base_Controller
 			);
 
 			if (Auth::attempt($credentials)) {
-				// User logged in
+
+				if ( Session::has('pre_login_url') )
+				{
+					$url = Session::get('pre_login_url', URL::to_action('account@profile'));
+					Session::forget('pre_login_url');
+
+					return Redirect::to($url);
+				}
 			} else {
 				// User invalid
 				Session::flash('error', 'Username/password incorrect.');
@@ -32,14 +40,15 @@ class Account_Controller extends Base_Controller
 	{
 		Auth::logout();
 
-		Redirect::to('/');
+		Redirect::to_action('home');
 	}
 
 	public function action_register()
 	{
+		$input = Input::all();
 
 		if (Str::lower(Request::method()) == 'post') {
-			$validation = Validator::make(Input::all(), array(
+			$validation = Validator::make($input, array(
 				'email'      => 'required|email|unique:users|max:100',
 				'username'   => 'required|alpha_num|max:100',
 				'password'   => 'required|confirmed',
@@ -52,9 +61,28 @@ class Account_Controller extends Base_Controller
 				return Redirect::to_action('account@register')
 					->with_errors($validation)
 					->with_input();
+			} else {
+				$user = User::create(array(
+					'email' => $input['email'],
+					'username' => $input['username'],
+					'password' => $input['password'],
+					'first_name' => $input['first_name'],
+					'last_name' => $input['last_name']
+				));
+
+				Auth::login($user->id);
+				Event::fire('account.registered', array($user));
+
+				return Redirect::to_action('account@profile');
 			}
 		} else {
 			return View::make('account/register');
 		}
+	}
+
+	public function action_profile()
+	{
+		dd(Auth::user());
+		return View::make('account/profile')->with(Auth::user());
 	}
 }

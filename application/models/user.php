@@ -11,4 +11,10 @@ class User extends Eloquent
 	{
 		return $this->has_many('Photo');
 	}
+
+	public function set_password($password)
+	{
+		// Automatically hash the password upon assignment
+		$this->set_attribute('password', Hash::make($password));
+	}
 }
