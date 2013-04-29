@@ -19,6 +19,6 @@
     <div style="margin-top:10px">
       <button class="btn btn-large btn-primary" type="submit">Sign in</button>
     </div>
-  </form>
+  {{ Form::close() }}
 
 @endsection

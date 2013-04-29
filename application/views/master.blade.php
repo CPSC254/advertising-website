@@ -54,10 +54,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Craigslist (CPSC 254)</a>
+          <a class="brand" href="/">Craigslist (CPSC 254)</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><a href="/">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
@@ -66,9 +66,9 @@
                 <li class="dropdown">
                   <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> Username <strong class="caret"></strong></a>
                   <ul class="dropdown-menu">
-                    <li><a href="#"><i class="icon-user"></i> Profile</a></li>
+                    <li><a href="/account/profile"><i class="icon-user"></i> Profile</a></li>
                     <li class="divider"></li>
-                    <li><a href="#"><i class="icon-off"></i> Logout</a></li>
+                    <li><a href="/account/logout"><i class="icon-off"></i> Logout</a></li>
                   </ul>
                 </li>
               </ul>
