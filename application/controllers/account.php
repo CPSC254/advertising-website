@@ -17,7 +17,7 @@ class Account_Controller extends Base_Controller
 				'remember' => (bool) Input::get('remember', false)
 			);
 
-			if (Auth::attempt($credentials)) {
+			if (Auth::check() || Auth::attempt($credentials)) {
 
 				if ( Session::has('pre_login_url') )
 				{
@@ -25,6 +25,8 @@ class Account_Controller extends Base_Controller
 					Session::forget('pre_login_url');
 
 					return Redirect::to($url);
+				} else {
+					return Redirect::to_action('account@profile');
 				}
 			} else {
 				// User invalid

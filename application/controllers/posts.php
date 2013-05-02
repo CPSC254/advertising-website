@@ -23,7 +23,7 @@ class Posts_Controller extends Base_Controller
 		}
 	}
 
-	public function action_create()
+	public function get_create()
 	{
 		if (Input::has('title')) {
 			$input = Input::all();

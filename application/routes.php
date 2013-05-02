@@ -45,6 +45,7 @@ Route::get('/test', function() {
 });
 
 Route::get('posts/(:num?)', 'posts@index');
+Route::any('posts/create', 'posts@create');
 
 Route::controller('account');
 
