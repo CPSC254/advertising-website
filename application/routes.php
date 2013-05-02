@@ -37,7 +37,18 @@ Route::get('/', function()
 	return View::make('home.index');
 });
 
+Route::get('/test', function() {
+	// Test out any sample code here...
+
+	echo 'hello world';
+
+});
+
+Route::get('posts/(:num?)', 'posts@index');
+
 Route::controller('account');
+
+Route::controller('posts');
 
 /*
 |--------------------------------------------------------------------------

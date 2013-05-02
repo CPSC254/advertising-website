@@ -182,4 +182,8 @@ return array(
 		'View'       	=> 'Laravel\\View',
 	),
 
+	'locations' => array(
+		'main_photos' => path('public') . 'photos/main/',
+	),
+
 );
