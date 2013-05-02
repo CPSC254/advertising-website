@@ -41,3 +41,111 @@
   font-weight:bold;
   color:darkred;
 }
+
+
+
+/*
+|--------------------------------------------------------------------------
+| From Django Project
+|--------------------------------------------------------------------------
+|
+| CSS Styles from Django project.
+| @todo: Modify to fit
+|
+*/
+
+body {
+    background: #ddd url(../img/bg.jpg) repeat top left;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 100;
+}
+
+.pagination ul {
+    background-color: #fff;
+}
+
+#splash {
+    margin:0;
+    padding-top:100px;
+    height: 200px;
+    background: #555;
+}
+
+#splash h1 {
+    color: #FFF;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 1.1em;
+    margin-bottom:20px;
+    font-family: 'Satisfy',cursive;
+}
+
+#htmltagcloud {
+    line-height: 2.4em;
+    word-spacing: normal;
+    letter-spacing: normal;
+    text-decoration: none;
+    text-transform: none;
+    text-align: justify;
+    text-indent: 0ex;
+    background-color: #fff;
+    margin: 0 0 0 0;
+    border: 2px dotted #ddd;
+    padding: 2em;
+}
+
+@media(max-width: 480px) {
+    #splash h1 {
+        font-size: 48px;
+    }
+}
+
+span a {
+    color: #fff;
+}
+
+span a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.main-content-border {
+    border: 5px solid #fff;
+    border-radius: 5px;
+
+    box-shadow: 3px 3px 3px #999;
+}
+
+#map-canvas {
+    height: 250px;
+    border:3px solid #fff;
+}
+
+.post-detail .detail {
+    margin-top:15px;
+}
+
+.review {
+    width:700px;
+}
+
+.review_subject {
+    font-size:20px;
+    font-weight:100;
+    margin-bottom:10px;
+}
+
+.post-name a {
+    font-size:20px;
+    color: #000;
+}
+
+.post-name a:hover {
+    color:#333;
+}
+
+#contact-form {
+    display:none;
+}

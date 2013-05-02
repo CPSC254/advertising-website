@@ -70,6 +70,11 @@ class Posts_Controller extends Base_Controller
 		}
 	}
 
+	public function post_contact()
+	{
+		dd(Input::all());
+	}
+
 	public function action_update()
 	{
 		View::make('posts/form')->with('model', Post::find(1231));

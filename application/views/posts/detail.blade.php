@@ -1,115 +1,92 @@
 @layout('master')
 
+@section('header_js')
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
+@endsection
+
 @section('content')
 
-ID: {{ $post->id }}
-<br />
-User: {{ $user->first_name }} {{ $user->last_name }}
-<br />
-Title: {{ $post->title }}
-<br />
-Location: {{ $post->location }}
-<br />
-Description: {{ $post->description }}
-<br />
-Main Photo: <img style="max-width:100px;max-height:100px" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" />
-
 <div class="container">
-		<div class="row-fluid">
-			<div class="span4">
-				<div class="row-fluid main-content-border">
-				{% thumbnail business.photo "400x300" crop="center" as im %}
-	            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
-	            {% endthumbnail %}
-	        	</div>
-	            <div class="row-fluid main-content-border" style="margin-top:15px">
-	            	<div id="map-canvas" data-address="{{ business.address_string }}">
-	            		<noscript>
-	            		    <!-- http://code.google.com/apis/maps/documentation/staticmaps/ -->
-	            		    <img src="http://maps.google.com/maps/api/staticmap?center={{ business.address_string|urlencode }}&amp;zoom=16&amp;size=512x512&amp;maptype=roadmap&amp;sensor=false" />
-	            		</noscript>
-	            	</div>
-	            </div>
-	            <div class="row-fluid" style="margin-top:15px">
-					<div class="span1"><i class="icon-map-marker"></i></div>
-					<div class="span11">
-						<address>
-							<a href="http://www.google.com/maps?q={{ business.address_string|urlencode }}" target="_blank">
-								{% autoescape off %}
-                                {{ business.address_html }}
-                                {% endautoescape %}
-							</a>
-						</address>
-					</div>
+	<div class="row-fluid">
+		<div class="span4">
+			<div class="row-fluid">
+				<img class="main-content-border" style="max-width:400px;max-height:400px" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" />
+        	</div>
+            <div class="row-fluid" style="margin-top:15px">
+            	<div id="map-canvas" data-address="{{ $post->location }}">
+            		<noscript>
+            		    <!-- http://code.google.com/apis/maps/documentation/staticmaps/ -->
+            		    <img src="http://maps.google.com/maps/api/staticmap?center={{ urlencode($post->location) }}&amp;zoom=16&amp;size=512x512&amp;maptype=roadmap&amp;sensor=false" />
+            		</noscript>
+            	</div>
+            </div>
+            <div class="row-fluid" style="margin-top:15px">
+				<div class="span1"><i class="icon-map-marker"></i></div>
+				<div class="span11">
+					<address>
+						<a href="http://www.google.com/maps?q={{ urlencode($post->location) }}" target="_blank">
+							{{ $post->location }}
+						</a>
+					</address>
 				</div>
-			</div>
-			<div class="span8 business-detail">
-				<h1 class="business-name">{{ business.name }} <a href="{% url 'business_detail' business.id %}"><i class="icon-bookmark bookmark"></i></a></h1>
-				{% for category in business.category.all %}
-				<span class="label label-info">{{ category.name }}</span>
-				{% endfor %}
-				<div class="detail">
-						<div class="span1"><i class="icon-star"></i></div>
-						<div class="span11">
-							{% for n in avg_rating %}
-							<i class="icon-star"></i>
-							{% endfor %}
-						</div>
-				</div>
-				<div class="detail">
-					<div class="row-fluid">
-						<div class="span1"><img src="{% static 'img/glyphicons_163_iphone.png' %}" alt="Phone" /></div>
-						<div class="span11">{{ business.formatted_phone }}</div>
-					</div>
-				</div>
-				<div class="detail">
-					<div class="row-fluid">
-						<div class="span1"><i class="icon-globe"></i></div>
-						<div class="span11"><a href="{{ business.website }}" target="_blank">{{ business.website }}</a></div>
-					</div>
-				</div>
-
-				{% if business.description %}
-				<div class="detail">
-					<div class="row-fluid">
-						<div class="span1"><i class="icon-align-left"></i></div>
-						<div class="span11"><p>{{ business.description }}</p></div>
-					</div>
-				</div>
-				{% endif %}
 			</div>
 		</div>
-		<div class="row-fluid" style="margin-top:15px">
-			<div class="span4">
+		<div class="span8 post-detail">
+			<h1 class="post-name">
+				{{ $post->title }}
+				<a href="{{ URL::to_action('posts@index', $post->id) }}">
+					<i class="icon-bookmark bookmark"></i>
+				</a>
+			</h1>
+			{{-- Should we implement categories? --}}
+			{{-- Category::names($post->categories()->get()) --}}
+			<!-- <span class="label label-info">{{ $post->categories }}</span> -->
 
-
-				<p>
-
-				</p>
-			</div>
-			<div class="span8">
-				<h2>Reviews</h2>
-				{% for review in reviews %}
-					<div class="review">
-						<div class="review_subject">{{ review.subject }}</div>
-						<div class="detail">
-							<div class="span1"><i class="icon-star"></i></div>
-							<div class="span11">{{ review.rating }}</div>
-						</div>
-						{#	{{ review.user }} #}
-
-						<div class="detail">
-							<div class="row-fluid">
-								<div class="span1"><i class="icon-align-left"></i></div>
-								<div class="span11"><p>{{ business.description }}</p></div>
-							</div>
-						</div>
+			<div class="detail">
+				<div class="row-fluid">
+					<div class="span1"><i class="icon-envelope"></i></div>
+					<div class="span11">
+						<a data-toggle="modal" data-target="#contact-form" style="cursor:pointer">Contact {{ $user->first_name }} {{ $user->last_name }}</a>
 					</div>
-				{% endfor %}
+				</div>
+			</div>
 
-				{% crispy reviewform %}
+			<div class="detail">
+				<div class="row-fluid">
+					<div class="span1"><i class="icon-align-left"></i></div>
+					<div class="span11"><p>{{ $post->description }}</p></div>
+				</div>
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Contact Form Modal Dialog -->
+
+<div id="contact-form" class="modal modal-animate">
+	{{ Form::open(URL::to_action('posts@contact'), 'post') }}
+
+		<div class="modal-header">
+			<h3>Contact {{ $user->first_name }} {{ $user->last_name }}</h3>
+		</div>
+		<div class="modal-body">
+			{{ Form::label('name', 'Your name:') }}
+			{{ Form::text('name') }}
+
+			{{ Form::label('subject', 'Subject:') }}
+			{{ Form::text('subject') }}
+
+			{{ Form::label('message', 'Message:') }}
+			{{ Form::textarea('message') }}
+
+		</div>
+		<div class="modal-footer">
+			<div style="margin-top:10px">
+				<button class="btn" type="button" data-dismiss="modal">Cancel</button>
+		    	<button class="btn btn-primary" type="submit">Send</button>
+		    </div>
+		</div>
+	{{ Form::close() }}
+</div>
 
 @endsection
