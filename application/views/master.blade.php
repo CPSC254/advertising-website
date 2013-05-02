@@ -64,7 +64,7 @@
             @if( Auth::check() )
               <ul class="nav pull-right">
                 <li class="dropdown">
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> Username <strong class="caret"></strong></a>
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> {{ Auth::user()->username }} <strong class="caret"></strong></a>
                   <ul class="dropdown-menu">
                     <li><a href="/account/profile"><i class="icon-user"></i> Profile</a></li>
                     <li class="divider"></li>
