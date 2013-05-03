@@ -171,3 +171,9 @@ if ( ! Request::cli() and Config::get('session.driver') !== '')
 {
 	Session::load();
 }
+
+
+
+
+
+function isset_or(&$a,$b=null){return(isset($a))?$a:$b;}

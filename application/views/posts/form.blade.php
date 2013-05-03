@@ -19,22 +19,26 @@
 
 						<div class="control-group {{ $errors->has('title') ? 'error' : '' }}">
 							{{ Form::label('title', 'Title: <span class="text-error">' . $errors->first('title') . '</span>', null, false) }}
-							{{ Form::text('title', Input::old('title')) }}
+							{{ Form::text('title', Input::old('title') ?: $model->title) }}
 						</div>
 
 						<div class="control-group {{ $errors->has('location') ? 'error' : '' }}">
 							{{ Form::label('location', 'Location:  <span class="text-error">' . $errors->first('location') . '</span>', null, false)}}
-							<input type="text" id="location" name="location" value="{{ Input::old('location') }}" style="margin:0 auto;" data-provide="typeahead" data-items="4" data-source="[{{$cities}}]" autocomplete="off" />
+							<input type="text" id="location" name="location" value="{{ Input::old('location') ?: $model->location }}" style="margin:0 auto;" data-provide="typeahead" data-items="4" data-source="[{{$cities}}]" autocomplete="off" />
 						</div>
 
 						<div class="control-group {{ $errors->has('main_photo') ? 'error' : '' }}">
 							{{ Form::label('main_photo', 'Main Photo: <span class="text-error">' . $errors->first('main_photo') . '</span>', null, false) }}
+
+							@if (isset($model->main_photo_name))
+								<img src="{{ URL::to_asset('photos/main/' . $model->main_photo_name) }}" style="max-width:100px;max-height:100px" class="thumbnail" />
+							@endif
 							{{ Form::file('main_photo') }}
 						</div>
 
 						<div class="control-group {{ $errors->has('description') ? 'error' : '' }}">
 							{{ Form::label('description', 'Description:  <span class="text-error">' . $errors->first('description') . '</span>', null, false)}}
-							{{ Form::textarea('description', Input::old('description')) }}
+							{{ Form::textarea('description', Input::old('description') ?: $model->description) }}
 						</div>
 
 						<div class="form-actions">

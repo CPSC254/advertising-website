@@ -114,4 +114,12 @@ class Post extends Eloquent
 	{
 		return $this->has_many('Photo');
 	}
+
+	public static function city_list()
+	{
+		$cities = array_map(function($city) { return '&quot;' . $city . '&quot;'; }, self::$cities);
+		$cities = implode(',', $cities);
+
+		return $cities;
+	}
 }

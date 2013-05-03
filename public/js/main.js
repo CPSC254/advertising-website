@@ -22,7 +22,7 @@
 
                 // Create a Google Map at the latitude/longitude returned by the Geocoder.
                 var myOptions = {
-                  zoom: 16,
+                  zoom: 8,
                   center: results[0].geometry.location,
                   mapTypeId: google.maps.MapTypeId.ROADMAP
                 };

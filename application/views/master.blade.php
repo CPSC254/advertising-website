@@ -100,7 +100,7 @@
       <hr>
 
       <footer>
-        <p>&copy; Company 2013</p>
+        <p>&copy; Austin White, Andrew Tsay, Jake Hawkinson, and Rickey Bennett 2013</p>
       </footer>
 
     </div><!--/.fluid-container-->
