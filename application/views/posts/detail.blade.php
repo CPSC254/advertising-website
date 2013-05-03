@@ -10,7 +10,7 @@
 	<div class="row-fluid">
 		<div class="span4">
 			<div class="row-fluid">
-				<img class="main-content-border" style="max-width:400px;max-height:400px" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" />
+				<img class="main-content-border" style="max-width:300px;max-height:400px" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" />
         	</div>
             <div class="row-fluid" style="margin-top:15px">
             	<div id="map-canvas" data-address="{{ $post->location }}">

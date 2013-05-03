@@ -30,7 +30,9 @@ class Posts_Controller extends Base_Controller
 
 	public function get_create()
 	{
-		return View::make('posts/form');
+		$cities = array_map(function($city) { return '&quot;' . $city . '&quot;'; }, Post::$cities);
+		$cities = implode(',', $cities);
+		return View::make('posts/form')->with('cities', $cities);
 	}
 
 	public function post_create()
@@ -41,10 +43,13 @@ class Posts_Controller extends Base_Controller
 			'title'       => 'required|max:100',
 			'location'    => 'required',
 			'description' => 'required|max:2500',
+			'main_photo'  => 'image|max:2048' // Max 2mb photo
 		));
 
 		if ($validate->fails()) {
-			return View::make('posts/form')->with('errors', $validate->errors);
+			return Redirect::to_action('posts@create')
+				->with_errors($validate)
+				->with_input();
 		} else {
 			// Validation passed
 			$file_name = md5(Input::file('main_photo.name') . time()) . '.' . File::extension(Input::file('main_photo.name'));
