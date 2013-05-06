@@ -5,7 +5,7 @@
 	<div class="container">
 		<div class="row-fluid">
 			<div class="span7 offset2 well">
-				{{ Form::open_for_files('posts/create', 'POST') }}
+				{{ Form::open_for_files($url, 'post') }}
 					<fieldset>
 						<legend>Create/Edit a Post</legend>
 

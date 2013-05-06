@@ -30,9 +30,11 @@ class Posts_Controller extends Base_Controller
 
 	public function get_create()
 	{
-		return View::make('posts/form')
-			->with('cities', Post::city_list())
-			->with('model', new Post);
+		return View::make('posts/form')->with(array(
+			'cities' => Post::city_list(),
+			'model' => new Post,
+			'url' => URL::to_action('posts@create')
+		));
 	}
 
 	public function post_create()
@@ -84,14 +86,16 @@ class Posts_Controller extends Base_Controller
 
 	public function get_edit($id)
 	{
-		return View::make('posts/form')
-			->with('cities', Post::city_list())
-			->with('model', Post::find($id));
+		return View::make('posts/form')->with(array(
+			'cities' => Post::city_list(),
+			'model' => Post::where_user_id(Auth::user()->id)->where_id($id)->first(),
+			'url' => URL::to_action('posts@edit', $id)
+		));
 	}
 
 	public function post_edit($id)
 	{
-
+		// Handle the input information to edit the post
 	}
 
 	public function post_contact()
