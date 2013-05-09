@@ -1,0 +1,9 @@
+{
+	"require": {
+		"anahkiasen/flickering": "dev-master"
+	},
+	"config": {
+		"bin-dir": "bin/"
+	},
+        "minimum-stability": "dev"
+}
