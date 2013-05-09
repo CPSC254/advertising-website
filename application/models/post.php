@@ -121,6 +121,11 @@ class Post extends Eloquent
 		return $this->has_many('Photo');
 	}
 
+	public static function user_has_access(User $user, Post $post)
+	{
+		return ($post->user_id == $user->id || $user->is_admin());
+	}
+
 	public static function city_list()
 	{
 		$cities = array_map(function($city) { return '&quot;' . $city . '&quot;'; }, self::$cities);

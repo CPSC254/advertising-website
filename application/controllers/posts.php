@@ -7,6 +7,7 @@ class Posts_Controller extends Base_Controller
 	public function __construct()
 	{
 		$this->filter('before', 'auth')->on('post');
+		$this->filter('before', 'auth')->on('get')->only('delete');
 	}
 
 	public function get_index($id = null)
@@ -21,7 +22,7 @@ class Posts_Controller extends Base_Controller
 		} else {
 			// View one post
 
-			$post = Post::find($id);
+			$post = Post::with('photos')->where_id($id)->first();
 
 			if ($post) {
 				return View::make('posts/detail')
@@ -73,11 +74,21 @@ class Posts_Controller extends Base_Controller
 
 				// Add the image data to the post
 				$post_data['main_photo_name'] = $file_name;
-				$post_data['main_photo_mime'] = Input::get('main_photo.mime');
-				$post_data['main_photo_size'] = Input::get('main_photo.size');
+				$post_data['main_photo_mime'] = Input::file('main_photo.type');
+				$post_data['main_photo_size'] = Input::file('main_photo.size');
 			}
 
 			$post = Post::create($post_data);
+
+			if (Input::has('photo_ids')) {
+				foreach ($input['photo_ids'] as $photo_id) {
+
+					// Get all of the photo_ids and attach them to the post
+					$photo = Photo::find($photo_id);
+					$photo->post_id = $post->id;
+					$photo->save();
+				}
+			}
 
 			if ($post) {
 				return Redirect::to_action('posts@index', $post->id);
@@ -90,15 +101,24 @@ class Posts_Controller extends Base_Controller
 
 	public function get_edit($id)
 	{
-		return View::make('posts/form')->with(array(
-			'model' => Post::where_user_id(Auth::user()->id)->where_id($id)->first(),
-			'url' => URL::to_action('posts@edit', $id)
-		));
+		$post = Post::find($id);
+
+		if (Post::user_has_access(Auth::user(), $post)) {
+			return View::make('posts/form')->with(array(
+				'model' => $post,
+				'url' => URL::to_action('posts@edit', $id)
+			));
+		} else {
+			return Response::error('403', array('message' => 'You are not authorized to modify this post.'));
+		}
 	}
 
 	public function post_edit($id)
 	{
 		// Handle the input information to edit the post
+
+		dd(Input::file('photos.name'));
+		dd(Input::all());
 	}
 
 	public function post_contact()
@@ -106,13 +126,16 @@ class Posts_Controller extends Base_Controller
 		dd(Input::all());
 	}
 
-	public function action_update()
+	public function get_delete($id)
 	{
-		View::make('posts/form')->with('model', Post::find(1231));
-	}
+		$post = Post::find($id);
 
-	public function action_delete()
-	{
+		if (Post::user_has_access(Auth::user(), $post)) {
+			$post->delete();
 
+			return Redirect::to_action('posts@index');
+		} else {
+			return Response::error('403', array('message' => 'You are not authorized to delete this post.'));
+		}
 	}
 }

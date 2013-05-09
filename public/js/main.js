@@ -1,10 +1,26 @@
 (function() {
     $(function() {
 
-        // $('a#contact-form-link').click(function(e) {
-        //   e.preventDefault();
+        if (typeof Dropzone !== 'undefined') {
+          Dropzone.autoDiscover = false;
+          $("div#photos").dropzone({url: '/upload'});
 
-        // });
+          var myDropzone = Dropzone.forElement("div#photos");
+
+          myDropzone.on('sending', function(file, xhr, formData) {
+            // Clear any previous errors
+            $('div#photo-errors').html('');
+          });
+
+          myDropzone.on('success', function(file, response) {
+            $('div#photo-ids').append('<input type="hidden" name="photo_ids[]" value="' + response.id + '" />');
+          });
+
+          myDropzone.on('error', function(file, message, response) {
+            $('div#photo-errors').html('<div class="alert alert-error">' + message + '</div>');
+            console.log(file, message, response);
+          });
+        }
 
         if ($('#map-canvas').length)
         {

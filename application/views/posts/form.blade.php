@@ -1,5 +1,13 @@
 @layout('master')
 
+@section('css')
+{{ HTML::style('/css/dropzone.css') }}
+@endsection
+
+@section('footer_js')
+{{ HTML::script('/js/dropzone.js') }}
+@endsection
+
 @section('content')
 
 	<div class="container">
@@ -40,6 +48,16 @@
 							{{ Form::label('description', 'Description:  <span class="text-error">' . $errors->first('description') . '</span>', null, false)}}
 							{{ Form::textarea('description', Input::old('description') ?: $model->description) }}
 						</div>
+
+						<legend>Photos</legend>
+
+						@foreach ($model->photos()->get() as $photo)
+
+						@endforeach
+
+						<div id="photo-errors"></div>
+						<div id="photos" class="dropzone"></div>
+						<div id="photo-ids"></div>
 
 						<div class="form-actions">
 					      <button class="btn btn-primary" type="submit">Submit</button>

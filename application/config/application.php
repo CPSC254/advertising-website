@@ -184,6 +184,9 @@ return array(
 
 	'locations' => array(
 		'main_photos' => path('public') . 'photos/main/',
+		'post_photos' => path('public') . 'photos/posts/',
 	),
+
+	'admin' => '$2a$08$XiWWnwLPpoPuwgMDx0wYKO0swH/Rl8YSEaEkNS5.L3gY/WwOYuLR.',
 
 );

@@ -17,4 +17,9 @@ class User extends Eloquent
 		// Automatically hash the password upon assignment
 		$this->set_attribute('password', Hash::make($password));
 	}
+
+	public function is_admin()
+	{
+		return (bool) $this->admin;
+	}
 }

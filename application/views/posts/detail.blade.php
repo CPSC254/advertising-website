@@ -4,6 +4,14 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>
 @endsection
 
+@section('css')
+{{ HTML::style('css/bootstrap-lightbox.css') }}
+@endsection
+
+@section('footer_js')
+{{ HTML::script('js/bootstrap-lightbox.js') }}
+@endsection
+
 @section('content')
 
 <div class="container">
@@ -53,13 +61,42 @@
 
 			<div class="detail">
 				<div class="row-fluid">
+					<div class="span1"><i class="icon-picture"></i></div>
+					<div class="span11">
+						<ul class="inline unstyled">
+
+							@foreach ($post->photos as $photo)
+							<li>
+								<a data-toggle="lightbox" href="#photo-{{ $photo->id }}" class="thumbnail">
+									<img style="max-width:100px;max-height:100px" src="{{ URL::to_asset('photos/posts/' . $photo->name) }}" />
+								</a>
+							</li>
+							@endforeach
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="detail">
+				<div class="row-fluid">
 					<div class="span1"><i class="icon-align-left"></i></div>
 					<div class="span11"><p>{{ $post->description }}</p></div>
 				</div>
 			</div>
+
+
 		</div>
 	</div>
 </div>
+
+<!-- Lightbox Modals -->
+@foreach ($post->photos as $photo)
+<div id="photo-{{ $photo->id }}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+	<div class='lightbox-content'>
+		<img src="{{ URL::to_asset('photos/posts/' . $photo->name) }}" />
+	</div>
+</div>
+@endforeach
 
 <!-- Contact Form Modal Dialog -->
 

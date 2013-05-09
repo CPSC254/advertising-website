@@ -49,11 +49,32 @@ Route::get('/search', function()
 		->with('posts', $posts);
 });
 
+Route::post('/upload', array('before' => 'auth', function() {
+	if (Input::file('file') != null) {
+		$file_name = md5(Input::file('file.name') . time()) . '.' . File::extension(Input::file('file.name'));
+
+		Input::upload('file', Config::get('application.locations.post_photos'), $file_name);
+
+		$photo = Photo::create(array(
+			'user_id' => Auth::user()->id,
+			'name' => $file_name,
+			'mime' => Input::file('file.type'),
+			'size' => Input::file('file.size'),
+		));
+
+		if ($photo) {
+			return Response::json(array('message' => 'success', 'id' => $photo->id));
+		} else {
+			return Response::make('File could not be saved in the database.', 500);
+		}
+	}
+}));
+
 Route::get('/test', function() {
 	// Test out any sample code here...
 
-	echo 'hello world';
-
+	$post = Post::with('photos')->where_id(9)->first();
+	dd($post);
 });
 
 Route::get('posts/(:num?)', 'posts@index');
