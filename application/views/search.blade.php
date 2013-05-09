@@ -13,9 +13,9 @@
                     <li class="nav-header">Cities</li>
                     @foreach (Post::$cities as $city)
                         @if (Input::has('city') && Input::get('city') == $city)
-                        <li class="active"><a href="/search?city={{ urlencode($city) }}">{{ $city }}</a></li>
+                        <li class="active"><a href="/search?{{ Post::query_string($city, Input::get('q')) }}">{{ $city }}</a></li>
                         @else
-                        <li><a href="/search?city={{ urlencode($city) }}">{{ $city }}</a></li>
+                        <li><a href="/search?{{ Post::query_string($city, Input::get('q')) }}">{{ $city }}</a></li>
                         @endif
                     @endforeach
                 </ul>
@@ -23,16 +23,15 @@
         </div><!--/span-->
         <div class="span9">
             <div class="well">
-                {{var_dump(Input::has('q'))}}
                 @if (Input::has('city') && Input::has('q'))
-                    <h1>{{ Input::get('city') }}</h1>
-                    <p>Showing posts matching '{{ Input::get('q') }}' in {{ Input::get('city') }}</p>
+                    <h1>{{ urldecode(Input::get('city')) }}</h1>
+                    <p>Showing posts matching '{{ urldecode(Input::get('q')) }}' in {{ urldecode(Input::get('city')) }}</p>
                 @elseif (Input::has('city'))
-                    <h1>{{ Input::get('city') }}</h1>
-                    <p>Showing posts in {{ Input::get('city') }}</p>
+                    <h1>{{ urldecode(Input::get('city')) }}</h1>
+                    <p>Showing posts in {{ urldecode(Input::get('city')) }}</p>
                 @elseif (Input::has('q'))
-                    <h1>{{ Input::get('q') }}</h1>
-                    <p>Showing posts matching '{{ Input::get('q') }}'</p>
+                    <h1>{{ urldecode(Input::get('q')) }}</h1>
+                    <p>Showing posts matching '{{ urldecode(Input::get('q')) }}'</p>
                 @else
                     <h1>Search for what you're looking for...</h1>
                     <p>We've got everything in your local area. Search using your own terms and then filter it by location.</p>
@@ -47,7 +46,7 @@
             <div class="row-fluid posts-main">
             @endif
 
-            <div class="span4 well">
+            <div class="span4 well post-preview">
                 <a href="/posts/{{ $post->id }}">
                     <img class="thumbnail" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" style="max-width:200px;max-height:75px" />
                 </a>

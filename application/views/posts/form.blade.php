@@ -24,7 +24,7 @@
 
 						<div class="control-group {{ $errors->has('location') ? 'error' : '' }}">
 							{{ Form::label('location', 'Location:  <span class="text-error">' . $errors->first('location') . '</span>', null, false)}}
-							<input type="text" id="location" name="location" value="{{ Input::old('location') ?: $model->location }}" style="margin:0 auto;" data-provide="typeahead" data-items="4" data-source="[{{$cities}}]" autocomplete="off" />
+							<input type="text" id="location" name="location" value="{{ Input::old('location') ?: $model->location }}" style="margin:0 auto;" data-provide="typeahead" data-items="4" data-source="[{{ Post::city_list() }}]" autocomplete="off" />
 						</div>
 
 						<div class="control-group {{ $errors->has('main_photo') ? 'error' : '' }}">

@@ -11,8 +11,13 @@ class Posts_Controller extends Base_Controller
 
 	public function get_index($id = null)
 	{
+		$posts = Post::where_user_id(Auth::user()->id)->get();
+
 		if ($id == null) {
-			// View all posts
+
+			return View::make('posts/all')
+				->with('posts', $posts);
+
 		} else {
 			// View one post
 
@@ -31,7 +36,6 @@ class Posts_Controller extends Base_Controller
 	public function get_create()
 	{
 		return View::make('posts/form')->with(array(
-			'cities' => Post::city_list(),
 			'model' => new Post,
 			'url' => URL::to_action('posts@create')
 		));
@@ -87,7 +91,6 @@ class Posts_Controller extends Base_Controller
 	public function get_edit($id)
 	{
 		return View::make('posts/form')->with(array(
-			'cities' => Post::city_list(),
 			'model' => Post::where_user_id(Auth::user()->id)->where_id($id)->first(),
 			'url' => URL::to_action('posts@edit', $id)
 		));

@@ -32,9 +32,21 @@
 |
 */
 
-Route::get('/', function()
+Route::get('/search', function()
 {
-	return View::make('home.index');
+	$posts = Post::where(function($query) {
+		if (Input::has('q')) {
+			$query->where('title', 'like', '%' . Input::get('q') . '%');
+		}
+
+		if (Input::has('city')) {
+			$query->where_location(Input::get('city'));
+		}
+	})->get();
+
+	return View::make('search')
+		->with('photo_background', Post::get_random_photo())
+		->with('posts', $posts);
 });
 
 Route::get('/test', function() {

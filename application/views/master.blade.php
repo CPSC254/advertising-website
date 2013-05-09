@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -42,6 +41,7 @@
   </head>
 
   <body>
+    @yield('canvas')
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
@@ -58,12 +58,16 @@
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
+            <form action="/search" method="get" class="navbar-search pull-left">
+              <input type="text" name="q" class="search-query" placeholder="Search" value="" style="margin:0 auto;" data-provide="typeahead" data-items="4" data-source="[{{ Post::city_list() }}]" autocomplete="off">
+            </form>
             @if( Auth::check() )
               <ul class="nav pull-right">
                 <li class="dropdown">
                   <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> {{ Auth::user()->username }} <strong class="caret"></strong></a>
                   <ul class="dropdown-menu">
                     <li><a href="/account/profile"><i class="icon-user"></i> Profile</a></li>
+                    <li><a href="/posts"><i class="icon-edit"></i> My Posts</a></li>
                     <li class="divider"></li>
                     <li><a href="/account/logout"><i class="icon-off"></i> Logout</a></li>
                   </ul>
@@ -112,5 +116,6 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/main.js"></script>
 
+    @yield('footer_js')
   </body>
 </html>
