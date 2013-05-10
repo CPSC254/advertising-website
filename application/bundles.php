@@ -39,4 +39,6 @@ return array(
 
 	'composer' => array('auto' => true),
 
+	'resizer',
+
 );

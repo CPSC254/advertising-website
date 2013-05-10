@@ -1,4 +1,5 @@
 <?php
+Bundle::start('resizer');
 
 class Posts_Controller extends Base_Controller
 {
@@ -70,6 +71,11 @@ class Posts_Controller extends Base_Controller
 			if (Input::file('main_photo') != null && Input::file('main_photo.name') != '') {
 				$file_name = md5(Input::file('main_photo.name') . time()) . '.' . File::extension(Input::file('main_photo.name'));
 
+				// Save a thumbnail
+				$thumbnail = Resizer::open(Input::file('main_photo'))
+					->resize(Post::THUMBNAIL_WIDTH, Post::THUMBNAIL_HEIGHT , 'crop')
+					->save(Config::get('application.locations.main_photo_thumbnails') . $file_name, 100);
+
 				Input::upload('main_photo', Config::get('application.locations.main_photos'), $file_name);
 
 				// Add the image data to the post
@@ -128,9 +134,13 @@ class Posts_Controller extends Base_Controller
 
 	public function get_delete($id)
 	{
-		$post = Post::find($id);
+		// We need to load the photos with the post to delete them as well (cascade the delete)
+		$post = Post::with('photos')->where_id($id)->first();
 
 		if (Post::user_has_access(Auth::user(), $post)) {
+
+			// Call delete which will fire off chained delete calls for photos and thumbnails
+			// in the file system as well
 			$post->delete();
 
 			return Redirect::to_action('posts@index');

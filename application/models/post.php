@@ -2,6 +2,10 @@
 
 class Post extends Eloquent
 {
+
+	const THUMBNAIL_WIDTH  = 400;
+	const THUMBNAIL_HEIGHT = 300;
+
 	public static $cities = array(
 		'Birmingham, Alabama',
 		'Montgomery, Alabama',
@@ -166,5 +170,21 @@ class Post extends Eloquent
             $query['q'] = $q;
 
         return http_build_query($query);
+	}
+
+	public function delete()
+	{
+		if (!empty($this->main_photo_name)) {
+			File::delete(Config::get('application.locations.main_photos') . $this->main_photo_name);
+			File::delete(Config::get('application.locations.main_photo_thumbnails') . $this->main_photo_name);
+		}
+
+		if (count($this->photos) > 0) {
+			foreach ($this->photos as $photo) {
+				$photo->delete();
+			}
+		}
+
+		parent::delete();
 	}
 }

@@ -72,10 +72,13 @@ class Account_Controller extends Base_Controller
 					'last_name' => $input['last_name']
 				));
 
+				// Login the new user automatically
 				Auth::login($user->id);
+
+				// Fire off an event that a user is registered (maybe fire off an email?)
 				Event::fire('account.registered', array($user));
 
-				return Redirect::to_action('account@profile');
+				return Redirect::to_action('posts@index');
 			}
 		} else {
 			return View::make('account/register');

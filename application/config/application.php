@@ -183,8 +183,10 @@ return array(
 	),
 
 	'locations' => array(
-		'main_photos' => path('public') . 'photos/main/',
-		'post_photos' => path('public') . 'photos/posts/',
+		'main_photos'           => path('public') . 'photos/main/',
+		'main_photo_thumbnails' => path('public') . 'photos/main/thumbnails/',
+		'post_photos'           => path('public') . 'photos/posts/',
+		'post_photo_thumbnails' => path('public') . 'photos/posts/thumbnails/',
 	),
 
 	'admin' => '$2a$08$XiWWnwLPpoPuwgMDx0wYKO0swH/Rl8YSEaEkNS5.L3gY/WwOYuLR.',

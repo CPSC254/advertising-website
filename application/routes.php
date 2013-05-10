@@ -50,8 +50,14 @@ Route::get('/search', function()
 });
 
 Route::post('/upload', array('before' => 'auth', function() {
+	Bundle::start('resizer');
 	if (Input::file('file') != null) {
 		$file_name = md5(Input::file('file.name') . time()) . '.' . File::extension(Input::file('file.name'));
+
+		// Save a thumbnail
+		$thumbnail = Resizer::open(Input::file('file'))
+			->resize(Photo::THUMBNAIL_WIDTH, Photo::THUMBNAIL_HEIGHT , 'crop')
+			->save(Config::get('application.locations.post_photo_thumbnails') . $file_name, 100);
 
 		Input::upload('file', Config::get('application.locations.post_photos'), $file_name);
 

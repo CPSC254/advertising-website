@@ -81,7 +81,7 @@
               </ul>
             @else
               <ul class="nav pull-right">
-                <li><a href="#">Sign Up</a></li>
+                <li><a href="/account/register">Sign Up</a></li>
                 <li class="divider-vertical"></li>
                 <li class="dropdown">
                   <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>

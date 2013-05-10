@@ -11,38 +11,38 @@
 	    {{ Form::token() }}
 
 	    <div class="control-group {{ $errors->has('email') ? 'error' : '' }}">
-		    {{ Form::label('email', 'Email:') }}
-		    {{ Form::text('email') }}
+		    {{ Form::label('email', 'Email: <span class="required">*</span>', null, false) }}
+		    {{ Form::text('email', Input::old('email')) }}
 		</div>
 
 		<div class="control-group {{ $errors->has('username') ? 'error' : '' }}">
-		    {{ Form::label('username', 'Username:') }}
-		    {{ Form::text('username') }}
+		    {{ Form::label('username', 'Username: <span class="required">*</span>', null, false) }}
+		    {{ Form::text('username', Input::old('username')) }}
 		</div>
 
 		<div class="control-group {{ $errors->has('password') ? 'error' : '' }}">
-		    {{ Form::label('password', 'Password:<span class="required">*</span>', null, false) }}
+		    {{ Form::label('password', 'Password: <span class="required">*</span>', null, false) }}
 		    {{ Form::password('password') }}
 	    </div>
 
 	    <div class="control-group {{ $errors->has('password') ? 'error' : '' }}">
-		    {{ Form::label('password_confirmation', 'Confirm Password:') }}
+		    {{ Form::label('password_confirmation', 'Confirm Password: <span class="required">*</span>', null, false) }}
 		    {{ Form::password('password_confirmation') }}
 		</div>
 
 	    <div class="control-group {{ $errors->has('first_name') ? 'error' : '' }}">
-		    {{ Form::label('first_name', 'First Name:') }}
-		    {{ Form::text('first_name') }}
+		    {{ Form::label('first_name', 'First Name: <span class="required">*</span>', null, false) }}
+		    {{ Form::text('first_name', Input::old('first_name')) }}
 		</div>
 
 	    <div class="control-group {{ $errors->has('last_name') ? 'error' : '' }}">
-		    {{ Form::label('last_name', 'Last Name:') }}
-		    {{ Form::text('last_name') }}
+		    {{ Form::label('last_name', 'Last Name: <span class="required">*</span>', null, false) }}
+		    {{ Form::text('last_name', Input::old('last_name')) }}
 		</div>
 
 	    <div class="control-group {{ $errors->has('terms') ? 'error' : '' }}">
-		    {{ Form::checkbox('terms', null, true) }}
-		    {{ Form::label('terms', 'I agree with the Terms and Conditions.', array('style' => 'display:inline'), false) }}
+		    {{ Form::checkbox('terms', null, Input::old('terms') ?: false) }}
+		    {{ Form::label('terms', 'I agree with the Terms and Conditions. <span class="required">*</span>', array('style' => 'display:inline'), false) }}
 		</div>
 
 		<div style="margin-top:10px">

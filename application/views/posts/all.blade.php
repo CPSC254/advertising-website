@@ -30,4 +30,6 @@
 		@endforeach
 	</tbody>
 </table>
+
+<a href="/posts/create" class="btn btn-success">Create a new post</a>
 @endsection
