@@ -1,8 +1,12 @@
 global:
   env:
     - LARAVEL_ENV: production
+db1:
+  name: craigslist
+  type: mysql
+
 web1:
-  name: laravel-pagoda
+  name: craigslist-new
   shared_writable_dirs:
     - /storage/cache
     - /storage/database
@@ -10,6 +14,7 @@ web1:
     - /storage/sessions
     - /storage/views
     - /storage/work
+    - /public/photos
   document_root: /public
   php_version: 5.3.8
   php_extensions:
@@ -18,6 +23,7 @@ web1:
     - eaccelerator
     - memcached
   before_deploy:
+    - "php artisan migrate:install"
     - "php artisan migrate"
   after_deploy:
     - "rm -f storage/cache/*"
