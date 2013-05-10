@@ -10,6 +10,8 @@ class Create_Posts_Table {
 	public function up()
 	{
 		Schema::create('posts', function($table) {
+			$table->engine = 'InnoDB';
+
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->string('title', 255);

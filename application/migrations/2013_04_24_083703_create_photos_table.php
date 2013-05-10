@@ -10,6 +10,8 @@ class Create_Photos_Table {
 	public function up()
 	{
 		Schema::create('photos', function($table) {
+			$table->engine = 'InnoDB';
+
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->integer('post_id');

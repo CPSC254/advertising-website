@@ -10,6 +10,8 @@ class Create_User_Table {
 	public function up()
 	{
 		Schema::create('users', function($table) {
+			$table->engine = 'InnoDB';
+
 			$table->increments('id');
 			$table->string('username', 50);
 			$table->string('email', 100);
