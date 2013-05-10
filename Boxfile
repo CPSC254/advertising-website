@@ -24,6 +24,7 @@ web1:
     - eaccelerator
     - memcached
     - curl
+    - gd
   after_build:
     - "if [ ! -f composer.phar ]; then curl -s http://getcomposer.org/installer | php; fi; php composer.phar install"
   before_deploy:
@@ -32,4 +33,4 @@ web1:
   after_deploy:
     - "rm -f storage/cache/*"
     - "rm -f storage/views/*"
-    - "rm -f vendor/anahkiasen/flickering/cache/*"
+    - "rm -rf vendor/anahkiasen/flickering/cache/*"
