@@ -15,6 +15,7 @@ web1:
     - /storage/views
     - /storage/work
     - /public/photos
+    - /vendor/anahkiasen/flickering/cache
   document_root: /public
   php_version: 5.3.8
   php_extensions:
@@ -31,3 +32,4 @@ web1:
   after_deploy:
     - "rm -f storage/cache/*"
     - "rm -f storage/views/*"
+    - "rm -f vendor/anahkiasen/flickering/cache/*"
