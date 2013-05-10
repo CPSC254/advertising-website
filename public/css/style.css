@@ -85,6 +85,11 @@ form textarea#description {
   height: 200px;
 }
 
+.thumbnail-edit .icon-minus-sign {
+  color:red;
+
+}
+
 
 
 /*

@@ -189,4 +189,12 @@ class Post extends Eloquent
 
 		parent::delete();
 	}
+
+	public function delete_main_photo()
+	{
+		if (!empty($this->main_photo_name)) {
+			File::delete(Config::get('application.locations.main_photos') . $this->main_photo_name);
+			File::delete(Config::get('application.locations.main_photo_thumbnails') . $this->main_photo_name);
+		}
+	}
 }

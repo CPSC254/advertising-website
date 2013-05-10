@@ -39,7 +39,7 @@
 							{{ Form::label('main_photo', 'Main Photo: <span class="text-error">' . $errors->first('main_photo') . '</span>', null, false) }}
 
 							@if (isset($model->main_photo_name))
-								<img src="{{ URL::to_asset('photos/main/' . $model->main_photo_name) }}" style="max-width:100px;max-height:100px" class="thumbnail" />
+								<img src="{{ URL::to_asset('photos/main/' . $model->main_photo_name) }}" style="max-width:100px;max-height:100px" class="thumbnail" id="main_photo_thumbnail" />
 							@endif
 							{{ Form::file('main_photo') }}
 						</div>
@@ -51,13 +51,19 @@
 
 						<legend>Photos</legend>
 
+						<ul class="unstyled inline">
 						@foreach ($model->photos()->get() as $photo)
-
+							<li class="thumbnail-edit">
+								<button type="button" class="close" data-photo-id="{{ $photo->id }}">&times;</button>
+								<img class="thumbnail" src="{{ URL::to_asset('photos/posts/thumbnails/' . $photo->name) }}" />
+							</li>
 						@endforeach
+						</ul>
 
 						<div id="photo-errors"></div>
 						<div id="photos" class="dropzone"></div>
 						<div id="photo-ids"></div>
+						<div id="photo-remove-ids"></div>
 
 						<div class="form-actions">
 					      <button class="btn btn-primary" type="submit">Submit</button>

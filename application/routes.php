@@ -94,6 +94,8 @@ Route::any('posts/create', 'posts@create');
 Route::any('posts/edit/(:num)', 'posts@edit');
 Route::post('posts/contact', 'posts@contact');
 
+Route::get('admin', 'admin@index');
+
 Route::controller('account');
 
 Route::controller('posts');
@@ -171,4 +173,10 @@ Route::filter('auth', function()
 {
 	Session::put('pre_login_url', URL::current());
 	if (Auth::guest()) return Redirect::to_action('account@login');
+});
+
+Route::filter('admin', function() {
+	if (!Session::has('admin')) {
+		return View::make('admin.login');
+	}
 });

@@ -22,6 +22,21 @@
           });
         }
 
+        $('.thumbnail-edit button.close').click(function(e) {
+          // Get the photo's id from the data-photo-id attribute
+          var id = $(this).attr('data-photo-id');
+
+          // Remove the DOM element
+          $(this).parent().remove();
+
+          // Append a hidden field element denoting which photo we would like to remove
+          $('#photo-remove-ids').append('<input type="hidden" name="photo_remove_ids[]" value="' + id + '" />');
+        });
+
+        $('input[type=file]#main_photo').change(function(e) {
+          $('#main_photo_thumbnail').remove();
+        });
+
         if ($('#map-canvas').length)
         {
             // Define the address we want to map.

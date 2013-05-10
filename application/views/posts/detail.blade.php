@@ -50,6 +50,18 @@
 			{{-- Category::names($post->categories()->get()) --}}
 			<!-- <span class="label label-info">{{ $post->categories }}</span> -->
 
+			@if ($post->user_id == Auth::user()->id || Auth::user()->is_admin())
+			<div class="detail">
+				<div class="row-fluid">
+					<div class="span1"><i class="icon-cog"></i></div>
+					<div class="span11">
+						<a class="btn btn-info" href="/posts/edit/{{ $post->id }}">Edit</a>
+						<a class="btn btn-danger" href="/posts/delete/{{ $post->id }}" onclick="javascript:return confirm('Are you sure you wish to delete this post?')">Delete</a>
+					</div>
+				</div>
+			</div>
+			@endif
+
 			<div class="detail">
 				<div class="row-fluid">
 					<div class="span1"><i class="icon-envelope"></i></div>
@@ -67,7 +79,7 @@
 
 							@foreach ($post->photos as $photo)
 							<li>
-								<a data-toggle="lightbox" href="#photo-{{ $photo->id }}" class="thumbnail">
+								<a data-toggle="lightbox" href="#photo-{{ $photo->id }}" class="thumbnail" style="background-color:white">
 									<img style="max-width:100px;max-height:100px" src="{{ URL::to_asset('photos/posts/thumbnails/' . $photo->name) }}" />
 								</a>
 							</li>
