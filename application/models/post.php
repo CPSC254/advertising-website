@@ -140,6 +140,8 @@ class Post extends Eloquent
 
 	public static function get_random_photo()
 	{
+		// Disabling for now
+		return '';
 		$flickering = new Flickering\Flickering();
 
 		$size = 'url_l';
