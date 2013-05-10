@@ -32,6 +32,12 @@
 |
 */
 
+Route::get('/', function() {
+	return View::make('search')
+		->with('photo_background', Post::get_random_photo())
+		->with('posts', Post::all());
+});
+
 Route::get('/search', function()
 {
 	$posts = Post::where(function($query) {
