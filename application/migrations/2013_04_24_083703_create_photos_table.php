@@ -10,8 +10,6 @@ class Create_Photos_Table {
 	public function up()
 	{
 		Schema::create('photos', function($table) {
-			$table->engine = 'InnoDB';
-
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->integer('post_id');
@@ -22,12 +20,6 @@ class Create_Photos_Table {
 			$table->string('caption');
 
 			$table->timestamps();
-
-			if (Config::get('database.default') != 'sqlite') {
-				// Not supported by SQLite
-				$table->foreign('user_id')->references('id')->on('users');
-				$table->foreign('post_id')->references('id')->on('posts');
-			}
 		});
 	}
 

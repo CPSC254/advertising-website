@@ -10,8 +10,6 @@ class Create_Posts_Table {
 	public function up()
 	{
 		Schema::create('posts', function($table) {
-			$table->engine = 'InnoDB';
-
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->string('title', 255);
@@ -19,11 +17,6 @@ class Create_Posts_Table {
 			$table->string('location', 50);
 
 			$table->timestamps();
-
-			if (Config::get('database.default') != 'sqlite') {
-				// Not supported by SQLite
-				$table->foreign('user_id')->references('id')->on('users');
-			}
 		});
 	}
 
