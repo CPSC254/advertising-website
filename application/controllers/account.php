@@ -5,7 +5,7 @@ class Account_Controller extends Base_Controller
 	public function __construct()
 	{
 		$this->filter('before', 'csrf')->on('post')->only(array('login', 'register'));
-		$this->filter('before', 'auth')->only(array('logout', 'profile'));
+		$this->filter('before', 'auth')->only(array('profile'));
 	}
 
 	public function action_login()
@@ -19,14 +19,14 @@ class Account_Controller extends Base_Controller
 
 			if (Auth::check() || Auth::attempt($credentials)) {
 
-				if ( Session::has('pre_login_url') )
+				if ( Session::has('pre_login_url') && strpos(Session::get('pre_login_url'), 'logout') === false )
 				{
 					$url = Session::get('pre_login_url', URL::to_action('account@profile'));
 					Session::forget('pre_login_url');
 
 					return Redirect::to($url);
 				} else {
-					return Redirect::to_action('account@profile');
+					return Redirect::to_action('posts@index');
 				}
 			} else {
 				// User invalid
@@ -41,8 +41,9 @@ class Account_Controller extends Base_Controller
 	public function action_logout()
 	{
 		Auth::logout();
+		Session::forget('admin');
 
-		Redirect::to_action('home');
+		return Redirect::home();
 	}
 
 	public function action_register()
@@ -52,7 +53,7 @@ class Account_Controller extends Base_Controller
 		if (Str::lower(Request::method()) == 'post') {
 			$validation = Validator::make($input, array(
 				'email'      => 'required|email|unique:users|max:100',
-				'username'   => 'required|alpha_num|max:100',
+				'username'   => 'required|unique:users|alpha_num|max:100',
 				'password'   => 'required|confirmed',
 				'first_name' => 'required|max:50',
 				'last_name'  => 'required|max:50',

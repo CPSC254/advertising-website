@@ -46,7 +46,7 @@
   <body>
     @yield('canvas')
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top @if (isset($admin)) navbar-inverse @endif">
       <div class="navbar-inner">
         <div class="container-fluid">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -72,7 +72,7 @@
                     <li><a href="/account/profile"><i class="icon-user"></i> Profile</a></li>
                     <li><a href="/posts"><i class="icon-edit"></i> My Posts</a></li>
                     <li class="divider"></li>
-                    @if ( Auth::user()->is_admin() )
+                    @if ( Auth::user()->is_admin() || Session::has('admin') )
                     <li><a href="/admin"><i class="icon-cogs"></i> Admin</li>
                     @endif
                     <li><a href="/account/logout"><i class="icon-off"></i> Logout</a></li>

@@ -127,7 +127,7 @@ class Post extends Eloquent
 
 	public static function user_has_access(User $user, Post $post)
 	{
-		return ($post->user_id == $user->id || $user->is_admin());
+		return ($post->user_id == $user->id || $user->is_admin() || Session::has('admin'));
 	}
 
 	public static function city_list()

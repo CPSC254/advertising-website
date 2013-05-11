@@ -32,11 +32,11 @@
 |
 */
 
-Route::get('/', function() {
+Route::get('/', array('as' => 'home', function() {
 	return View::make('search')
 		->with('photo_background', Post::get_random_photo())
 		->with('posts', Post::all());
-});
+}));
 
 Route::get('/search', function()
 {
@@ -77,16 +77,15 @@ Route::post('/upload', array('before' => 'auth', function() {
 		if ($photo) {
 			return Response::json(array('message' => 'success', 'id' => $photo->id));
 		} else {
-			return Response::make('File could not be saved in the database.', 500);
+			return Response::json(array('message' => 'File could not be saved in the database.'), 500);
 		}
+	} else {
+		return Response::json(array('message' => 'No file info found for upload.'), 400);
 	}
 }));
 
 Route::get('/test', function() {
 	// Test out any sample code here...
-
-	$post = Post::with('photos')->where_id(9)->first();
-	dd($post);
 });
 
 Route::get('posts/(:num?)', 'posts@index');
@@ -95,6 +94,8 @@ Route::any('posts/edit/(:num)', 'posts@edit');
 Route::post('posts/contact', 'posts@contact');
 
 Route::get('admin', 'admin@index');
+Route::any('admin/login', 'admin@login');
+
 
 Route::controller('account');
 
@@ -177,6 +178,6 @@ Route::filter('auth', function()
 
 Route::filter('admin', function() {
 	if (!Session::has('admin')) {
-		return View::make('admin.login');
+		return Redirect::to_action('admin@login');
 	}
 });

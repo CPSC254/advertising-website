@@ -104,8 +104,11 @@ class Posts_Controller extends Base_Controller
 
 						// Get all of the photo_ids and attach them to the post
 						$photo = Photo::find($photo_id);
-						$photo->post_id = $post->id;
-						$photo->save();
+
+						if ($photo) {
+							$photo->post_id = $post->id;
+							$photo->save();
+						}
 					}
 				}
 
@@ -201,8 +204,11 @@ class Posts_Controller extends Base_Controller
 
 						// Get all of the photo_ids and attach them to the post
 						$photo = Photo::find($photo_id);
-						$photo->post_id = $post->id;
-						$photo->save();
+
+						if ($photo) {
+							$photo->post_id = $post->id;
+							$photo->save();
+						}
 					}
 				}
 
