@@ -41,4 +41,8 @@ return array(
 
 	'resizer',
 
+	'mailblade',
+
+	'swiftmailer' => array('auto' => true),
+
 );
