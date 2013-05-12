@@ -19,7 +19,8 @@ class Account_Controller extends Base_Controller
 
 			if (Auth::check() || Auth::attempt($credentials)) {
 
-				if ( Session::has('pre_login_url') && strpos(Session::get('pre_login_url'), 'logout') === false )
+				if ( Session::has('pre_login_url') && strpos(Session::get('pre_login_url'), 'logout') === false
+					&& strpos(Session::get('pre_login_url'), 'delete') === false )
 				{
 					$url = Session::get('pre_login_url', URL::to_action('account@profile'));
 					Session::forget('pre_login_url');

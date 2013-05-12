@@ -22,7 +22,7 @@ class Posts_Controller extends Base_Controller
 	public function __construct()
 	{
 		$this->filter('before', 'auth')->on('post');
-		$this->filter('before', 'auth')->on('get')->only('delete');
+		$this->filter('before', 'auth')->on('get')->only(array('index', 'delete'));
 	}
 
 	public function get_index($id = null)
@@ -235,13 +235,37 @@ class Posts_Controller extends Base_Controller
 
 	public function post_contact()
 	{
-		dd(Input::all());
+		// Initialize some helpers
+		Bundle::start('mailblade');
+		Bundle::start('swiftmailer');
+		$mailer = IoC::resolve('mailer');
+
+		$post = Post::with('user')->where_id(Input::get('post_id'))->first();
+
+		$data = array_merge(array('post' => $post), Input::all());
+
+		$mailblade = Mailblade::make('contact-form', $data);
+
+		$message = Swift_Message::newInstance(Input::get('subject'))
+		    ->setFrom(array(Input::get('email') => Input::get('name')))
+		    ->setTo(array($post->user->email => $post->user->first_name . ' ' . $post->user->last_name))
+		    ->addPart($mailblade->text(), 'text/plain')
+		    ->setBody($mailblade->html(),'text/html');
+
+		$mailer->send($message, $failures);
+		dd($failures);
+
+		return 'sent';
 	}
 
 	public function get_delete($id)
 	{
 		// We need to load the photos with the post to delete them as well (cascade the delete)
 		$post = Post::with('photos')->where_id($id)->first();
+
+		if (!$post) {
+			return Response::error('404', array('message' => 'Post could not be found.'));
+		}
 
 		if (Post::user_has_access(Auth::user(), $post)) {
 

@@ -96,7 +96,6 @@ Route::post('posts/contact', 'posts@contact');
 Route::get('admin', 'admin@index');
 Route::any('admin/login', 'admin@login');
 
-
 Route::controller('account');
 
 Route::controller('posts');
