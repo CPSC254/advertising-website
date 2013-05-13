@@ -6,10 +6,10 @@
 		<tr>
 			<th>ID</th>
 			<th><i class="icon-picture"></i></th>
-			<th>Location</th>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Photos</th>
+			<th><i class="icon-globe"></i> Location</th>
+			<th><i class="icon-font"></i> Title</th>
+			<th><i class="icon-align-left"></i> Description</th>
+			<th><i class="icon-picture"></i> Photos</th>
 			<th><i class="icon-cog"></i></th>
 		</tr>
 	</thead>

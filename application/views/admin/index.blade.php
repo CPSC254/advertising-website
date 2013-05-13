@@ -6,10 +6,11 @@
 		<tr>
 			<th>ID</th>
 			<th><i class="icon-picture"></i></th>
-			<th>Location</th>
-			<th>Title</th>
-			<th>Description</th>
-			<th>Photos</th>
+			<th><i class="icon-user"></i> User</th>
+			<th><i class="icon-globe"></i> Location</th>
+			<th><i class="icon-font"></i> Title</th>
+			<th><i class="icon-align-left"></i> Description</th>
+			<th><i class="icon-picture"></i> Photos</th>
 			<th><i class="icon-cog"></i></th>
 		</tr>
 	</thead>
@@ -17,6 +18,7 @@
 		@foreach ($posts as $post)
 			<tr>
 				<td><a href="/posts/{{ $post->id }}">{{ $post->id }}</a></td>
+				<td>{{ $post->user->username }}</td>
 				<td><a href="/posts/{{ $post->id }}"><img class="thumbnail" style="max-width:50px;max-height:50px" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" /></a></td>
 				<td>{{ $post->location }}</td>
 				<td>{{ $post->title }}</td>

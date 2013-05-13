@@ -5,6 +5,7 @@ class Posts_Controller extends Base_Controller
 {
 	public $restful = true;
 
+	// Validation when the user is making a new post
 	public static $post_create_validation = array(
 		'title'       => 'required|max:100',
 		'location'    => 'required',
@@ -12,6 +13,7 @@ class Posts_Controller extends Base_Controller
 		'main_photo'  => 'image|max:2048' // Max 2mb photo
 	);
 
+	// Validation for when the user is editing an existing post
 	public static $post_edit_validation = array(
 		'title'       => 'required|max:100',
 		'location'    => 'required',
@@ -21,29 +23,36 @@ class Posts_Controller extends Base_Controller
 
 	public function __construct()
 	{
+		// Ensure that the user is logged in before they try to access the following sections
+		// Any POST request and GET requests on posts/ and posts/delete
 		$this->filter('before', 'auth')->on('post');
 		$this->filter('before', 'auth')->on('get')->only(array('index', 'delete'));
 	}
 
 	public function get_index($id = null)
 	{
+		// Retrieve all of the user's posts
 		$posts = Post::where_user_id(Auth::user()->id)->get();
 
+		// If the id is not present, show all posts
 		if ($id == null) {
 
 			return View::make('posts/all')
 				->with('posts', $posts);
 
 		} else {
-			// View one post
 
+			// Retrieve the post with the specified id (note: any user can view a post)
 			$post = Post::with('photos')->where_id($id)->first();
 
+			// Make sure the post exists
 			if ($post) {
-				return View::make('posts/detail')
+				// Pull in the posts.detail view and provide the post and user models
+				return View::make('posts.detail')
 					->with('post', $post)
 					->with('user', $post->user()->first());
 			} else {
+				// Post was not found, return a 404 error
 				return Response::error('404');
 			}
 		}
@@ -51,17 +60,21 @@ class Posts_Controller extends Base_Controller
 
 	public function get_create()
 	{
-		return View::make('posts/form')->with(array(
-			'model' => new Post,
-			'url' => URL::to_action('posts@create')
+		// Generate the form to create a post
+		return View::make('posts.form')->with(array(
+			'model' => new Post, // Needs an empty Post model
+			'url'   => URL::to_action('posts@create') // Form action will respond back to the Post::post_create() method
 		));
 	}
 
 	public function post_create()
 	{
+		// Make sure we don't display a raw exception
 		try {
+			// Gather the input values
 			$input = Input::all();
 
+			// Setup the validator using the post_create rules
 			$validate = Validator::make($input, self::$post_create_validation);
 
 			if ($validate->fails()) {
