@@ -3,7 +3,10 @@
 
         $('#contact-form #send').click(function(e) {
           e.preventDefault();
+
           var contactForm = $('#contact-form');
+          contactForm.find('#contact-form-spinner').html('<i class="icon-spinner icon-spin icon-large"></i>');
+
           var data = {
             name:    contactForm.find('#name').val(),
             phone:   contactForm.find('#phone').val(),
@@ -18,7 +21,8 @@
             url: '/posts/contact',
             data: data
           }).done(function(response) {
-            $('#contact-form-status').html('<div class="alert alert-success">' + response.message + '</div>');
+            contactForm.find('#contact-form-spinner').html('');
+            $('#contact-form-status').html('<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>' + response.message + '</div>');
             $('#contact-form').modal('hide');
           });
         });

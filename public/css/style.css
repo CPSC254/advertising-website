@@ -79,7 +79,7 @@ canvas.blur {
   color:#000;
 }
 
-form textarea#description {
+form textarea#description, form textarea#message {
   width: 100%;
   box-sizing: border-box;
   height: 200px;

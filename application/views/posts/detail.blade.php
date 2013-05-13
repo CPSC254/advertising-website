@@ -18,7 +18,10 @@
 	<div class="row-fluid">
 		<div class="span4">
 			<div class="row-fluid">
-				<img class="main-content-border" src="{{ URL::to_asset('photos/main/thumbnails/' . $post->main_photo_name) }}" />
+				<!-- MAIN THUMBNAIL -->
+				<a data-toggle="lightbox" href="#main-photo">
+					<img class="main-content-border" src="{{ URL::to_asset('photos/main/thumbnails/' . $post->main_photo_name) }}" />
+				</a>
         	</div>
             <div class="row-fluid" style="margin-top:15px">
             	<div id="map-canvas" data-address="{{ $post->location }}">
@@ -103,6 +106,12 @@
 </div>
 
 <!-- Lightbox Modals -->
+<div id="main-photo" class="lightbox hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="lightbox-content">
+		<img src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" />
+	</div>
+</div>
+
 @foreach ($post->photos as $photo)
 <div id="photo-{{ $photo->id }}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
 	<div class='lightbox-content'>

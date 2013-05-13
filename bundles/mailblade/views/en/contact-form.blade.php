@@ -29,7 +29,7 @@
         <tr>
           <td width="100%" align="left" style="padding:13.5px 27px;border-bottom:1px solid #c7c7c7;">
             <h1 style="color:#444444;font-weight:normal;font-size:27px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,sans-serif;">
-              {{ Str::title($name) }}, You&#8217;ve Got Mail
+              {{ Str::title($post->user->first_name . ' ' . $post->user->last_name ) }}, You&#8217;ve Got Mail
             </h1>
             <p style="color:#666666;font-size:18px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.5em;">
               {{ $subject }}
