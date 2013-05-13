@@ -40,6 +40,7 @@
 			</div>
 		</div>
 		<div class="span8 post-detail">
+			<div id="contact-form-status"></div>
 			<h1 class="post-name">
 				{{ $post->title }}
 				<a href="{{ URL::to_action('posts@index', $post->id) }}">

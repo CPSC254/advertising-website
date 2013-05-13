@@ -252,10 +252,9 @@ class Posts_Controller extends Base_Controller
 		    ->addPart($mailblade->text(), 'text/plain')
 		    ->setBody($mailblade->html(),'text/html');
 
-		$mailer->send($message, $failures);
-		dd($failures);
+		$mailer->send($message);
 
-		return 'sent';
+		return Response::json(array('message' => 'Message sent.'));
 	}
 
 	public function get_delete($id)

@@ -1,6 +1,28 @@
 (function() {
     $(function() {
 
+        $('#contact-form #send').click(function(e) {
+          e.preventDefault();
+          var contactForm = $('#contact-form');
+          var data = {
+            name:    contactForm.find('#name').val(),
+            phone:   contactForm.find('#phone').val(),
+            email:   contactForm.find('#email').val(),
+            subject: contactForm.find('#subject').val(),
+            message: contactForm.find('#message').val(),
+            post_id: contactForm.find('input[name=post_id]').val()
+          };
+
+          $.ajax({
+            type: 'post',
+            url: '/posts/contact',
+            data: data
+          }).done(function(response) {
+            $('#contact-form-status').html('<div class="alert alert-success">' + response.message + '</div>');
+            $('#contact-form').modal('hide');
+          });
+        });
+
         if (typeof Dropzone !== 'undefined') {
           Dropzone.autoDiscover = false;
           $("div#photos").dropzone({url: '/upload'});

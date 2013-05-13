@@ -1,6 +1,6 @@
 <!-- Contact Form Modal Dialog -->
 
-<div id="contact-form" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="contact-form-title" aria-hidden="true">
+<div id="contact-form" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="contact-form-title" aria-hidden="true">
 	{{ Form::open(URL::to_action('posts@contact'), 'post') }}
 
 		<div class="modal-header">
@@ -27,7 +27,7 @@
 		</div>
 		<div class="modal-footer">
 			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			<button class="btn btn-primary" type="submit">Send</button>
+			<button class="btn btn-primary" id="send" type="submit">Send</button>
 		</div>
 	{{ Form::close() }}
 </div>

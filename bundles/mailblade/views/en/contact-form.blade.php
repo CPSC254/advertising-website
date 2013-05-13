@@ -56,6 +56,11 @@
             <h2 style="color:#444444;font-weight:normal;font-size:18px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,sans-serif;">
               Information
             </h2>
+
+            <p style="color:#666666;font-size:14px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.5em;">
+              <strong>{{ $post->title }}</strong><br />
+              <em>{{ $post->location }}</em>
+            </p>
             <p style="color:#666666;font-size:14px;font-family:'HelveticaNeue-Light','Helvetica Neue Light','Helvetica Neue',Helvetica,Arial,sans-serif;line-height:1.5em;">
               Name: {{ $name }}<br>
               Email: {{ $email }}<br>
