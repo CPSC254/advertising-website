@@ -164,7 +164,16 @@ Event::listen('500', function($exception)
 
 Event::listen('log', function() {
 	$user = (Auth::guest()) ? 'Guest' : Auth::user()->username;
-	Log::write('info', "User: " . $user . "\t\tIP: " . Request::ip() . "\t\tRequest: " . Request::method() . " /" . URI::current() . "\t\t Data: " . print_r(Input::all(), true));
+	$input = Input::all();
+
+	if (isset($input['password']))
+		$input['password'] = '{HIDDEN}';
+	if (isset($input['confirm_password']))
+		$input['confirm_password'] = '{HIDDEN}';
+	if (isset($input['admin_password']))
+		$input['admin_password'] = '{HIDDEN}';
+
+	Log::write('info', "User: " . $user . "\t\tIP: " . Request::ip() . "\t\tRequest: " . Request::method() . " /" . URI::current() . "\t\t Data: " . print_r($input, true));
 });
 
 /*
