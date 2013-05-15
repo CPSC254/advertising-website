@@ -17,6 +17,32 @@ class Admin_Controller extends Base_Controller
 			->with('admin', true);
 	}
 
+	public function get_log($selected_log = null)
+	{
+		$logs = array();
+
+		foreach (glob(path('storage') . 'logs/*.log') as $filename)
+		{
+			$path_parts = pathinfo($filename);
+
+		    $logs[$path_parts['filename']] = $path_parts['filename'];
+		}
+
+		if ($selected_log != null) {
+			$log_contents = File::get(path('storage') . 'logs/' . $selected_log . '.log');
+		} elseif (count($logs) > 0) {
+			$selected_log = key(array_slice( $logs, -1, 1, true));
+			$log_contents = File::get(path('storage') . 'logs/' . $selected_log . '.log');
+		}
+
+		return View::make('admin.log')->with(array(
+			'admin' => true,
+			'logs' => $logs,
+			'selected_log' => $selected_log,
+			'log_contents' => isset_or($log_contents, null),
+		));
+	}
+
 	public function get_login()
 	{
 		return View::make('admin.login');

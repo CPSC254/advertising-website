@@ -33,6 +33,9 @@
 */
 
 Route::get('/', array('as' => 'home', function() {
+	// Grab the search template from /views/search.blade.php and add variables
+	// "photo_background" (useless for now) and "posts" with all of the posts (no
+	// search data entered on the home page)
 	return View::make('search')
 		->with('photo_background', Post::get_random_photo())
 		->with('posts', Post::all());
@@ -40,27 +43,49 @@ Route::get('/', array('as' => 'home', function() {
 
 Route::get('/search', function()
 {
+	// Perform a search query on the Post model
 	$posts = Post::where(function($query) {
+		// Grab the "q" input variable
 		if (Input::has('q')) {
+			// Search for titles loosely matching the search parameter
 			$query->where('title', 'like', '%' . Input::get('q') . '%');
 
+			// If the search term matches one of the predefined cities, search
+			// for a location as well
 			if (in_array(Input::get('q'), Post::$cities))
 				$query->or_where('location', '=', Input::get('q'));
 		}
 
+		// If there is a city input (?city=SPECIFIED_CITY), filter by location
 		if (Input::has('city')) {
 			$query->where_location(Input::get('city'));
 		}
 	})->get();
 
+	// Grab the search template from /views/search.blade.php and add variables
+	// "photo_background" (useless for now) and "posts" that have been searched for
 	return View::make('search')
 		->with('photo_background', Post::get_random_photo())
 		->with('posts', $posts);
 });
 
+// Route all POST requests to /upload here, ensuring that the user is
+// logged in first
 Route::post('/upload', array('before' => 'auth', function() {
 	Bundle::start('resizer');
+
+	// Check if a file has been uploaded first
 	if (Input::file('file') != null) {
+
+		// Validate the image upload, ensuring that it's an image and under the max upload size specified
+		$validation = Validator::make(Input::all(), array('file' => 'required|image|max:2048'));
+
+		// If it fails, let the user know in a json response with a proper 412 response code
+		if ($validation->fails()) {
+			return Response::json(array('message' => $validation->errors->first('file')), 412);
+		}
+
+		// Generate a random file name
 		$file_name = md5(Input::file('file.name') . time()) . '.' . File::extension(Input::file('file.name'));
 
 		// Save a thumbnail
@@ -68,8 +93,10 @@ Route::post('/upload', array('before' => 'auth', function() {
 			->resize(Photo::THUMBNAIL_WIDTH, Photo::THUMBNAIL_HEIGHT , 'crop')
 			->save(Config::get('application.locations.post_photo_thumbnails') . $file_name, 100);
 
+		// Save the file to the post_photos location (specified in config/application.php)
 		Input::upload('file', Config::get('application.locations.post_photos'), $file_name);
 
+		// Create the database entry for the photo
 		$photo = Photo::create(array(
 			'user_id' => Auth::user()->id,
 			'name' => $file_name,
@@ -78,17 +105,22 @@ Route::post('/upload', array('before' => 'auth', function() {
 		));
 
 		if ($photo) {
+			// If the database entry was successful, send back a success response
 			return Response::json(array('message' => 'success', 'id' => $photo->id));
 		} else {
+
+			// Error saving the file
 			return Response::json(array('message' => 'File could not be saved in the database.'), 500);
 		}
 	} else {
+		// Let the user know that in order to access this endpoint, a file must be uploaded
 		return Response::json(array('message' => 'No file info found for upload.'), 400);
 	}
 }));
 
 Route::get('/test', function() {
 	// Test out any sample code here...
+	echo URI::current();
 });
 
 Route::get('posts/(:num?)', 'posts@index');
@@ -98,6 +130,7 @@ Route::post('posts/contact', 'posts@contact');
 
 Route::get('admin', 'admin@index');
 Route::any('admin/login', 'admin@login');
+Route::any('admin/log/(:any?)', 'admin@log');
 
 Route::controller('account');
 
@@ -127,6 +160,11 @@ Event::listen('404', function()
 Event::listen('500', function($exception)
 {
 	return Response::error('500');
+});
+
+Event::listen('log', function() {
+	$user = (Auth::guest()) ? 'Guest' : Auth::user()->username;
+	Log::write('info', "User: " . $user . "\t\tIP: " . Request::ip() . "\t\tRequest: " . Request::method() . " /" . URI::current() . "\t\t Data: " . print_r(Input::all(), true));
 });
 
 /*
@@ -160,6 +198,20 @@ Event::listen('500', function($exception)
 Route::filter('before', function()
 {
 	// Do stuff before every request to your application...
+
+	$registered_routes = array('search', 'upload', 'admin', 'account', 'posts', 'test');
+
+	$route = URI::current();
+	$route_matched = false;
+	$i = 0;
+
+	do {
+		$route_matched = stripos($route, $registered_routes[$i]) !== false;
+	} while($route_matched === false && ++$i < count($registered_routes));
+
+	if ($route_matched && stripos($route, 'favicon') === false) {
+		Event::fire('log');
+	}
 });
 
 Route::filter('after', function($response)

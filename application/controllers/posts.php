@@ -10,7 +10,7 @@ class Posts_Controller extends Base_Controller
 		'title'       => 'required|max:100',
 		'location'    => 'required',
 		'description' => 'required|max:2500',
-		'main_photo'  => 'image|max:2048' // Max 2mb photo
+		'main_photo'  => 'image|max:2048',
 	);
 
 	// Validation for when the user is editing an existing post
@@ -18,7 +18,7 @@ class Posts_Controller extends Base_Controller
 		'title'       => 'required|max:100',
 		'location'    => 'required',
 		'description' => 'required|max:2500',
-		'main_photo'  => 'image|max:2048' // Max 2mb photo
+		'main_photo'  => 'image|max:2048'
 	);
 
 	public function __construct()
@@ -126,6 +126,7 @@ class Posts_Controller extends Base_Controller
 				}
 
 				if ($post) {
+
 					return Redirect::to_action('posts@index', $post->id);
 				} else {
 					// Database problem

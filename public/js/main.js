@@ -63,6 +63,10 @@
           $('#main_photo_thumbnail').remove();
         });
 
+        $('select[name=log]').change(function(e) {
+          window.location = '/admin/log/' + $(this).find('option:selected').text();
+        });
+
         if ($('#map-canvas').length)
         {
             // Define the address we want to map.
