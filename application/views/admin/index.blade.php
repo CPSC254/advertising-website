@@ -15,7 +15,7 @@
 			<th><i class="icon-font"></i> Title</th>
 			<th><i class="icon-align-left"></i> Description</th>
 			<th><i class="icon-picture"></i> Photos</th>
-			<th><i class="icon-cog"></i></th>
+			<th style="width:85px"><i class="icon-cog"></i></th>
 		</tr>
 	</thead>
 	<tbody>
