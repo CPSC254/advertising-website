@@ -57,7 +57,7 @@ class Admin_Controller extends Base_Controller
 				'remember' => (bool) Input::get('remember', false)
 			);
 
-			if (Auth::check() || Auth::attempt($credentials) && Hash::check(Input::get('admin_password', Config::get('application.admin')))) {
+			if (Auth::check() || Auth::attempt($credentials) && Hash::check(Input::get('admin_password'), Config::get('application.admin'))) {
 				Session::put('admin', true);
 				return Redirect::to_action('admin@index');
 			} else {
