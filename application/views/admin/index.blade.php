@@ -22,7 +22,7 @@
 		@foreach ($posts as $post)
 			<tr>
 				<td><a href="/posts/{{ $post->id }}">{{ $post->id }}</a></td>
-				<td>{{ $post->user->username }}</td>
+				<td><a href="mailto:{{ $post->user->email }}" title="{{ $post->user->email }}">{{ $post->user->username }}</a></td>
 				<td><a href="/posts/{{ $post->id }}"><img class="thumbnail" style="max-width:50px;max-height:50px" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" /></a></td>
 				<td>{{ $post->location }}</td>
 				<td>{{ $post->title }}</td>
