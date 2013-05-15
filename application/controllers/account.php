@@ -89,7 +89,7 @@ class Account_Controller extends Base_Controller
 
 	public function action_profile()
 	{
-		dd(Auth::user());
+		dd(Auth::user()->to_array());
 		return View::make('account/profile')->with(Auth::user());
 	}
 }

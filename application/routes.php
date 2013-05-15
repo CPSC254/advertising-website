@@ -43,6 +43,9 @@ Route::get('/search', function()
 	$posts = Post::where(function($query) {
 		if (Input::has('q')) {
 			$query->where('title', 'like', '%' . Input::get('q') . '%');
+
+			if (in_array(Input::get('q'), Post::$cities))
+				$query->or_where('location', '=', Input::get('q'));
 		}
 
 		if (Input::has('city')) {
