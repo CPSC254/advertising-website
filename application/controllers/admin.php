@@ -62,11 +62,10 @@ class Admin_Controller extends Base_Controller
 				return Redirect::to_action('admin@index');
 			} else {
 				// User invalid
-				Session::flash('error', 'User account or admin password incorrect.');
-				return Redirect::to_action('account@login');
+				return Redirect::to_action('admin@login')->with('error', 'User account or admin password incorrect.');
 			}
 		} else {
-			return View::make('account/login');
+			return Redirect::to_action('admin@login')->with('error', 'User account or admin password incorrect.');
 		}
 	}
 
