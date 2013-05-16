@@ -111,7 +111,7 @@
       <hr>
 
       <footer>
-        <p>&copy; Austin White, Andrew Tsay, Jake Hawkinson, and Rickey Bennett 2013</p>
+        <p>&copy; 2013 Austin White, Andrew Tsay, Jake Hawkinson, and Rickey Bennett</p>
       </footer>
 
     </div><!--/.fluid-container-->
