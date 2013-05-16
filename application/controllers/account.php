@@ -10,32 +10,44 @@ class Account_Controller extends Base_Controller
 
 	public function action_login()
 	{
+		// Make sure the user has submitted a username and password
 		if (Input::has('username') && Input::has('password')) {
+
+			// Compile a lowercase username, password, and a boolean for the remember
+			// me feature into an associative array
 			$credentials = array(
 				'username' => Str::lower(Input::get('username')),
 				'password' => Input::get('password'),
 				'remember' => (bool) Input::get('remember', false)
 			);
 
+			// If the user is already logged in or the credentials are ok
 			if (Auth::check() || Auth::attempt($credentials)) {
 
+				// Check if the user was trying to go somewhere that required authentication
 				if ( Session::has('pre_login_url') && strpos(Session::get('pre_login_url'), 'logout') === false
 					&& strpos(Session::get('pre_login_url'), 'delete') === false )
 				{
+					// Set the url to the pre specified url or the default account/profile
 					$url = Session::get('pre_login_url', URL::to_action('account@profile'));
+
+					// Destroy the previous value
 					Session::forget('pre_login_url');
 
+					// Finally, redirect the user
 					return Redirect::to($url);
 				} else {
+
+					// If there's no url specified, go to the posts page
 					return Redirect::to_action('posts@index');
 				}
 			} else {
+
 				// User invalid
-				Session::flash('error', 'Username/password incorrect.');
-				return Redirect::to_action('account@login');
+				return Redirect::to_action('account@login')->with('error', 'Username/password incorrect.');
 			}
 		} else {
-			return View::make('account/login');
+			return View::make('account.login')->with('error', 'Please specify a username and password.');
 		}
 	}
 
