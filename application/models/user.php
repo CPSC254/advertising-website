@@ -25,9 +25,9 @@ class User extends Eloquent
 
 	public function last_ip()
 	{
-		$user_id = $this->id;
+		$username = $this->username;
 
-		return Cache::remember('user-' . $this->id . '-last_ip', function() use($user_id) {
+		return Cache::remember('user-' . $this->id . '-last_ip', function() use($username) {
 			$logs = array();
 
 			foreach (glob(path('storage') . 'logs/*.log') as $filename)
@@ -41,14 +41,14 @@ class User extends Eloquent
 			{
 				$log_contents = File::get(path('storage') . 'logs/' . $log . '.log');
 
-				if (preg_match_all("/User: " . $user_id . "\s*IP: ([0-9\.:]+)/", $log_contents, $matches)) {
+				if (preg_match_all("/User: " . $username . "\s*IP: ([0-9\.:]+)/", $log_contents, $matches)) {
 				    $last_match = $matches[1][count($matches[1])-1];
 
 				    if ($last_match)
 				    	break;
 				}
 
-				return $last_match ?: null;
+				return (isset($last_match)) ? $last_match : null;
 			}
 		}, 5);
 	}
