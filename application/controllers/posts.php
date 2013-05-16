@@ -26,7 +26,7 @@ class Posts_Controller extends Base_Controller
 		// Ensure that the user is logged in before they try to access the following sections
 		// Any POST request and GET requests on posts/ and posts/delete
 		$this->filter('before', 'auth')->on('post');
-		$this->filter('before', 'auth')->on('get')->only(array('index', 'delete'));
+		$this->filter('before', 'auth')->on('get')->only(array('delete'));
 	}
 
 	public function get_index($id = null)
