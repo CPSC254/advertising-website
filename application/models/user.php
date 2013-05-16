@@ -25,28 +25,31 @@ class User extends Eloquent
 
 	public function last_ip()
 	{
-		$logs = array();
+		$user_id = $this->id;
 
-		foreach (glob(path('storage') . 'logs/*.log') as $filename)
-		{
-			$path_parts = pathinfo($filename);
+		return Cache::remember('user-' . $this->id . '-last_ip', function() use($user_id) {
+			$logs = array();
 
-			array_unshift($logs, $path_parts['filename']);
-		}
-
-		foreach ($logs as $log)
-		{
-			$log_contents = File::get(path('storage') . 'logs/' . $log . '.log');
-
-			if (preg_match_all("/User: (.+)\s*IP: ([0-9\.:]+)/", $log_contents, $matches))
+			foreach (glob(path('storage') . 'logs/*.log') as $filename)
 			{
-			    $last_match = $matches[2][count($matches[2])-1];
+				$path_parts = pathinfo($filename);
 
-			    if ($last_match)
-			    	break;
+				array_unshift($logs, $path_parts['filename']);
 			}
-		}
 
-		return $last_match ?: null;
+			foreach ($logs as $log)
+			{
+				$log_contents = File::get(path('storage') . 'logs/' . $log . '.log');
+
+				if (preg_match_all("/User: " . $user_id . "\s*IP: ([0-9\.:]+)/", $log_contents, $matches)) {
+				    $last_match = $matches[1][count($matches[1])-1];
+
+				    if ($last_match)
+				    	break;
+				}
+
+				return $last_match ?: null;
+			}
+		}, 5);
 	}
 }

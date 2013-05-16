@@ -241,6 +241,10 @@ Route::filter('before', function()
 	if ($route_matched && stripos($route, 'favicon') === false) {
 		Event::fire('log');
 	}
+
+	if (Auth::check()) {
+		Cache::put('user-' . Auth::user()->id . '-last_ip', Request::ip(), 5);
+	}
 });
 
 Route::filter('after', function($response)
