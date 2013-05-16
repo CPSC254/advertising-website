@@ -9,8 +9,8 @@
 	<thead>
 		<tr>
 			<th>ID</th>
-			<th><i class="icon-picture"></i></th>
 			<th><i class="icon-user"></i> User</th>
+			<th><i class="icon-picture"></i></th>
 			<th><i class="icon-globe"></i> Location</th>
 			<th><i class="icon-font"></i> Title</th>
 			<th><i class="icon-align-left"></i> Description</th>
