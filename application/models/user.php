@@ -45,10 +45,10 @@ class User extends Eloquent
 				    $last_match = $matches[1][count($matches[1])-1];
 
 				    if ($last_match)
-				    	break;
+				    	return $last_match;
 				}
 
-				return (isset($last_match)) ? $last_match : null;
+				return 'Unknown';
 			}
 		}, 5);
 	}

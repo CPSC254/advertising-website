@@ -136,9 +136,7 @@ Route::get('users/delete/(:num)', array('before' => 'admin', function($user_id) 
 
 Route::get('/test', function() {
 	// Test out any sample code here...
-	$user = User::find(1);
 
-	dd($user->last_ip());
 });
 
 Route::get('posts/(:num?)', 'posts@index');
