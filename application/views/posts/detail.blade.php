@@ -50,11 +50,8 @@
 					<i class="icon-bookmark bookmark"></i>
 				</a>
 			</h1>
-			{{-- Should we implement categories? --}}
-			{{-- Category::names($post->categories()->get()) --}}
-			<!-- <span class="label label-info">{{ $post->categories }}</span> -->
 
-			@if ($post->user_id == Auth::user()->id || Auth::user()->is_admin())
+			@if (Auth::check() && ($post->user_id == Auth::user()->id || Auth::user()->is_admin()))
 			<div class="detail">
 				<div class="row-fluid">
 					<div class="span1"><i class="icon-cog"></i></div>

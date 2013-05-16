@@ -34,6 +34,8 @@ class Posts_Controller extends Base_Controller
 		// If the id is not present, show all posts
 		if ($id == null) {
 
+			$this->filter('before', 'auth');
+
 			// Retrieve all of the user's posts
 			$posts = Post::where_user_id(Auth::user()->id)->get();
 
