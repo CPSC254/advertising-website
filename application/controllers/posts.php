@@ -31,13 +31,13 @@ class Posts_Controller extends Base_Controller
 
 	public function get_index($id = null)
 	{
-		// Retrieve all of the user's posts
-		$posts = Post::where_user_id(Auth::user()->id)->get();
-
 		// If the id is not present, show all posts
 		if ($id == null) {
 
-			return View::make('posts/all')
+			// Retrieve all of the user's posts
+			$posts = Post::where_user_id(Auth::user()->id)->get();
+
+			return View::make('posts.all')
 				->with('posts', $posts);
 
 		} else {
