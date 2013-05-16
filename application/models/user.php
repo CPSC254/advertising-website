@@ -22,4 +22,31 @@ class User extends Eloquent
 	{
 		return (bool) $this->admin;
 	}
+
+	public function last_ip()
+	{
+		$logs = array();
+
+		foreach (glob(path('storage') . 'logs/*.log') as $filename)
+		{
+			$path_parts = pathinfo($filename);
+
+			array_unshift($logs, $path_parts['filename']);
+		}
+
+		foreach ($logs as $log)
+		{
+			$log_contents = File::get(path('storage') . 'logs/' . $log . '.log');
+
+			if (preg_match_all("/User: (.+)\s*IP: ([0-9\.:]+)/", $log_contents, $matches))
+			{
+			    $last_match = $matches[2][count($matches[2])-1];
+
+			    if ($last_match)
+			    	break;
+			}
+		}
+
+		return $last_match ?: null;
+	}
 }

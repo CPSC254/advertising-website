@@ -118,9 +118,27 @@ Route::post('/upload', array('before' => 'auth', function() {
 	}
 }));
 
+Route::get('users/delete/(:num)', array('before' => 'admin', function($user_id) {
+	$user = User::find($user_id);
+
+	if ($user) {
+		$photos = Photo::where_user_id($user_id)->get();
+		foreach ($photos as $photo) $photo->delete();
+
+		$posts = Post::where_user_id($user_id)->get();
+		foreach ($posts as $post) $post->delete();
+
+		$user->delete();
+	}
+
+	return Redirect::to('admin');
+}));
+
 Route::get('/test', function() {
 	// Test out any sample code here...
-	echo URI::current();
+	$user = User::find(1);
+
+	dd($user->last_ip());
 });
 
 Route::get('posts/(:num?)', 'posts@index');
@@ -131,6 +149,8 @@ Route::post('posts/contact', 'posts@contact');
 Route::get('admin', 'admin@index');
 Route::any('admin/login', 'admin@login');
 Route::any('admin/log/(:any?)', 'admin@log');
+Route::get('admin/make/(:num)', 'admin@make');
+Route::get('admin/users', 'admin@users');
 
 Route::controller('account');
 

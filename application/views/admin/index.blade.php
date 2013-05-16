@@ -4,6 +4,7 @@
 <ul class="nav nav-pills">
   <li class="active"><a href="/admin">Main</a></li>
   <li><a href="/admin/log">Log</a></li>
+  <li><a href="/admin/users">Users</a></li>
 </ul>
 <table class="table table-bordered table-hover" style="background-color:#fff">
 	<thead>

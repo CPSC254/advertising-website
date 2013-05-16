@@ -6,7 +6,7 @@ class Admin_Controller extends Base_Controller
 
 	public function __construct()
 	{
-		$this->filter('before', 'admin')->only('index');
+		$this->filter('before', 'admin')->except(array('login'));
 		$this->filter('before', 'csrf')->only('login')->on('post');
 	}
 
@@ -43,6 +43,22 @@ class Admin_Controller extends Base_Controller
 		));
 	}
 
+	public function get_users()
+	{
+		$users = User::all();
+
+		return View::make('admin.users')->with('users', $users);
+	}
+
+	public function get_make($user_id)
+	{
+		$user = User::where_id($user_id)->first();
+		$user->admin = 1;
+		$user->save();
+
+		return Redirect::back();
+	}
+
 	public function get_login()
 	{
 		return View::make('admin.login');
@@ -58,6 +74,10 @@ class Admin_Controller extends Base_Controller
 			);
 
 			if (Auth::check() || Auth::attempt($credentials) && Hash::check(Input::get('admin_password'), Config::get('application.admin'))) {
+				if (!Auth::user()->is_admin()) {
+					return Redirect::to_action('admin@login')->with('error', 'You do not have admin privileges.');
+				}
+
 				Session::put('admin', true);
 				return Redirect::to_action('admin@index');
 			} else {

@@ -1,5 +1,9 @@
 (function() {
     $(function() {
+        console.log($('.tooltip-toggle').length);
+        $('.tooltip-toggle').each(function(index, element) {
+          $(element).tooltip();
+        });
 
         $('#contact-form #send').click(function(e) {
           e.preventDefault();
