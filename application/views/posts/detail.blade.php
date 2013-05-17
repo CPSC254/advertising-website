@@ -36,7 +36,7 @@
 				<div class="span11">
 					<address>
 						<a href="http://www.google.com/maps?q={{ urlencode($post->location) }}" target="_blank">
-							{{ $post->location }}
+							{{ e($post->location) }}
 						</a>
 					</address>
 				</div>
@@ -67,7 +67,7 @@
 				<div class="row-fluid">
 					<div class="span1"><i class="icon-envelope"></i></div>
 					<div class="span11">
-						<a data-toggle="modal" data-target="#contact-form" style="cursor:pointer">Contact {{ $user->first_name }} {{ $user->last_name }}</a>
+						<a data-toggle="modal" data-target="#contact-form" style="cursor:pointer">Contact {{ e($user->first_name) }} {{ e($user->last_name) }}</a>
 					</div>
 				</div>
 			</div>
@@ -93,7 +93,7 @@
 			<div class="detail">
 				<div class="row-fluid">
 					<div class="span1"><i class="icon-align-left"></i></div>
-					<div class="span11"><p>{{ $post->description }}</p></div>
+					<div class="span11"><p>{{ e($post->description) }}</p></div>
 				</div>
 			</div>
 

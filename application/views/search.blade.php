@@ -50,9 +50,9 @@
                 <a href="/posts/{{ $post->id }}">
                     <img class="thumbnail" src="{{ URL::to_asset('photos/main/' . $post->main_photo_name) }}" style="max-width:200px;max-height:75px" />
                 </a>
-                <h2><a href="/posts/{{ $post->id }}">{{ $post->title }}</a></h2>
-                <span class="label label-info">{{ $post->location }}</span><br />
-                <p>{{ $post->description }}</p>
+                <h2><a href="/posts/{{ $post->id }}">{{ e($post->title) }}</a></h2>
+                <span class="label label-info">{{ e($post->location) }}</span><br />
+                <p>{{ e($post->description) }}</p>
                 <p><a class="btn" href="/posts/{{ $post->id }}">View details &raquo;</a></p>
             </div><!--/span4-->
 
