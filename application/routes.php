@@ -148,6 +148,7 @@ Route::get('admin', 'admin@index');
 Route::any('admin/login', 'admin@login');
 Route::any('admin/log/(:any?)', 'admin@log');
 Route::get('admin/make/(:num)', 'admin@make');
+Route::get('admin/revoke/(:num)', 'admin@revoke');
 Route::get('admin/users', 'admin@users');
 
 Route::controller('account');

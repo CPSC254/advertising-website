@@ -31,9 +31,11 @@
 						</td>
 						<td><a href="#" class="tooltip-toggle" data-toggle="tooltip" title="Last IP: {{ $user->last_ip() }}">{{ $user->username }}</a></td>
 						<td>{{ $user->email }}</td>
-						<td style="width:150px">
+						<td style="width:200px">
 							@if (!$user->is_admin())
 							<a class="btn btn-info" href="/admin/make/{{ $user->id }}">Make Admin</a>
+							@else
+							<a class="btn btn-warning" href="/admin/revoke/{{ $user->id }}">Revoke Admin</a>
 							@endif
 							<a class="btn btn-danger" href="/users/delete/{{ $user->id }}" onclick="javascript:return confirm('Are you sure you wish to delete this user?')"><i class="icon-trash icon-white"></i></a>
 						</td>

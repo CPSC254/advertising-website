@@ -59,6 +59,15 @@ class Admin_Controller extends Base_Controller
 		return Redirect::back();
 	}
 
+	public function get_revoke($user_id)
+	{
+		$user = User::where_id($user_id)->first();
+		$user->admin = 0;
+		$user->save();
+
+		return Redirect::back();
+	}
+
 	public function get_login()
 	{
 		return View::make('admin.login');
