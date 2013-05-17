@@ -60,7 +60,6 @@
               <li class="active"><a href="/">Home</a></li>
               <li><a href="#about">About</a></li>
               <li><a href="#contact">Contact</a></li>
-              <li><a href="/admin"><i class="icon-cogs"></i> Admin</a></li>
             </ul>
             <form action="/search" method="get" class="navbar-search pull-left">
               <input type="text" name="q" class="search-query" placeholder="Search" value="" style="margin:0 auto;" data-provide="typeahead" data-items="4" data-source="[{{ Post::city_list() }}]" autocomplete="off">
