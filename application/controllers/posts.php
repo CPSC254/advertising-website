@@ -97,7 +97,7 @@ class Posts_Controller extends Base_Controller
 					$file_name = md5(Input::file('main_photo.name') . time()) . '.' . File::extension(Input::file('main_photo.name'));
 
 					// Boost the memory limit for the resizer
-					ini_set('memory_limit', '64M');
+					ini_set('memory_limit', '128M');
 
 					// Save a thumbnail
 					$thumbnail = Resizer::open(Input::file('main_photo'))
