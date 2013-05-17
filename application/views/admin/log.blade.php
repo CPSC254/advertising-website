@@ -9,6 +9,6 @@
 
 {{ Form::select('log', $logs, $selected_log) }}
 
-<pre style="overflow:auto;height:700px"><code>{{ $log_contents }}</code></pre>
+<pre style="overflow:auto;height:700px"><code>{{ e($log_contents) }}</code></pre>
 
 @endsection
