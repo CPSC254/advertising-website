@@ -16,6 +16,7 @@
 					<th><i class="icon-user"></i> Name</th>
 					<th><i class="icon-user"></i> Username</th>
 					<th><i class="icon-envelope"></i> Email</th>
+					<th><i class="icon-pushpin"></i> Posts</th>
 					<th><i class="icon-cog"></i></th>
 				</tr>
 			</thead>
@@ -31,6 +32,7 @@
 						</td>
 						<td><a href="#" class="tooltip-toggle" data-toggle="tooltip" title="Last IP: {{ $user->last_ip() }}">{{ $user->username }}</a></td>
 						<td>{{ $user->email }}</td>
+						<td>{{ $user->posts()->count() }}</td>
 						<td style="width:200px">
 							@if (!$user->is_admin())
 							<a class="btn btn-info" href="/admin/make/{{ $user->id }}">Make Admin</a>
