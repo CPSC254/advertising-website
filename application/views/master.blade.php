@@ -110,7 +110,7 @@
       <hr>
 
       <footer>
-        <p>&copy; 2013 Austin White, Andrew Tsay, Jake Hawkinson, and Rickey Bennett</p>
+        <p>&copy; 2013 Austin White</p>
       </footer>
 
     </div><!--/.fluid-container-->
